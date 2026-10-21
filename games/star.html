@@ -3,35 +3,416 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>스타 캐처 무료 게임 | PlayLab 플레이랩</title>
-<meta name="description" content="움직이는 별을 잡으며 점수에 도전하는 무료 미니게임입니다. 설치 없이 브라우저에서 바로 즐겨보세요.">
+
+<title>별 모으기 게임 | PlayLab</title>
+<meta name="description" content="PlayLab에서 무료 별 모으기 게임을 즐겨보세요! 반짝이는 별을 모으며 최고 기록에 도전하세요. 설치 없이 브라우저에서 바로 플레이할 수 있습니다.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://gamegame-pi.vercel.app/games/star.html">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PlayLab 플레이랩">
-<meta property="og:title" content="스타 캐처 무료 게임 | PlayLab">
-<meta property="og:description" content="움직이는 별을 잡으며 점수에 도전하는 무료 미니게임입니다.">
+<meta property="og:title" content="별 모으기 게임 | PlayLab">
+<meta property="og:description" content="반짝이는 별을 모으며 최고 기록에 도전하세요. 무료 웹게임 PlayLab에서 바로 플레이!">
 <meta property="og:url" content="https://gamegame-pi.vercel.app/games/star.html">
 <meta property="og:image" content="https://gamegame-pi.vercel.app/favicon.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="스타 캐처 무료 게임 | PlayLab">
-<meta name="twitter:description" content="움직이는 별을 잡으며 점수에 도전하는 무료 미니게임입니다.">
+<meta name="twitter:title" content="별 모으기 게임 | PlayLab">
+<meta name="twitter:description" content="반짝이는 별을 모으며 최고 기록에 도전하세요.">
+
 <link rel="icon" href="/favicon.png">
+
 <style>
-:root{--bg:#080b0a;--panel:#111714;--line:#28352d;--lime:#b8ff4a;--muted:#b4c0b6}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f8f4;font:16px/1.75 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:850px;margin:auto;padding:26px 20px 60px}nav{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px}
-a{color:var(--lime)}.brand{font-weight:850;text-decoration:none;letter-spacing:.2px}.hero{padding:40px 0 24px}.eyebrow{color:var(--lime);font-size:.9rem;font-weight:700}h1{font-size:clamp(2rem,6vw,3.2rem);line-height:1.18;margin:8px 0 16px}h2{font-size:1.35rem;margin-top:28px}p,li{color:var(--muted)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.btn{display:inline-block;background:var(--lime);color:#10150c;text-decoration:none;font-weight:800;border-radius:12px;padding:12px 18px}.btn.secondary{background:var(--panel);color:#f4f8f4;border:1px solid var(--line)}footer{border-top:1px solid var(--line);margin-top:38px;padding-top:18px;color:var(--muted);font-size:.9rem}
+:root {
+  --bg: #080b0a;
+  --panel: #111714;
+  --panel2: #171f19;
+  --line: #28352d;
+  --lime: #d5f477;
+  --lime-soft: rgba(213,244,119,.12);
+  --muted: #aab7ad;
+  --white: #f4f8f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% -15%, rgba(213,244,119,.11), transparent 55%),
+    var(--bg);
+  color: var(--white);
+  font: 16px/1.75 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+a {
+  color: var(--lime);
+}
+
+main {
+  width: min(100% - 32px, 1000px);
+  margin: auto;
+  padding: 20px 0 48px;
+}
+
+/* 상단 메뉴 */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-decoration: none;
+  letter-spacing: -.6px;
+}
+
+.brand span {
+  color: var(--lime);
+}
+
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .92rem;
+  font-weight: 700;
+}
+
+.nav-link:hover {
+  color: var(--lime);
+}
+
+/* 메인 소개 영역 */
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin-top: 24px;
+  padding: clamp(24px, 5vw, 48px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(213,244,119,.13), transparent 35%),
+    linear-gradient(145deg, #151d17, #0e130f 72%);
+  box-shadow: 0 18px 60px rgba(0,0,0,.22);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid rgba(213,244,119,.25);
+  border-radius: 999px;
+  background: var(--lime-soft);
+  color: var(--lime);
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.hero h1 {
+  margin: 20px 0 12px;
+  font-size: clamp(2.2rem, 7vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: -1.8px;
+}
+
+.hero h1 span {
+  color: var(--lime);
+}
+
+.hero p {
+  max-width: 650px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+/* 버튼 */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: var(--lime);
+  color: #11160d;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.btn.secondary {
+  border-color: var(--line);
+  background: #171e18;
+  color: var(--white);
+}
+
+/* 작은 안내 카드 */
+.quick-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 28px;
+}
+
+.info-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+}
+
+.info-card strong {
+  display: block;
+  color: var(--lime);
+  font-size: .95rem;
+}
+
+.info-card span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+/* 본문 카드 */
+.content-card {
+  margin-top: 18px;
+  padding: clamp(20px, 4vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(145deg, var(--panel), #0d120e);
+}
+
+.content-card h2 {
+  margin: 0 0 14px;
+  font-size: 1.35rem;
+  letter-spacing: -.4px;
+}
+
+.content-card h2::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  background: var(--lime);
+  vertical-align: -3px;
+}
+
+.content-card p,
+.content-card li {
+  color: var(--muted);
+}
+
+.content-card p:last-child {
+  margin-bottom: 0;
+}
+
+.content-card ol {
+  padding-left: 22px;
+}
+
+.content-card li {
+  padding: 4px 0 4px 4px;
+}
+
+/* 하단 */
+.bottom-cta {
+  margin-top: 24px;
+  padding: 28px 20px;
+  border: 1px solid rgba(213,244,119,.23);
+  border-radius: 22px;
+  background: var(--lime-soft);
+  text-align: center;
+}
+
+.bottom-cta h2 {
+  margin: 0 0 8px;
+  font-size: 1.45rem;
+}
+
+.bottom-cta p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.bottom-cta .actions {
+  justify-content: center;
+}
+
+footer {
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  main {
+    width: min(100% - 22px, 1000px);
+    padding-top: 10px;
+  }
+
+  nav {
+    padding-bottom: 14px;
+  }
+
+  .hero {
+    margin-top: 14px;
+    border-radius: 22px;
+  }
+
+  .quick-info {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .info-card {
+    padding: 13px 16px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .btn {
+    transition: none;
+  }
+}
 </style>
 </head>
-<body><main>
-<nav><a class="brand" href="/">PlayLab 플레이랩</a><a href="/">전체 게임 보기</a></nav>
-<header class="hero"><div class="eyebrow">무료 웹게임 · 설치 불필요</div><h1>스타 캐처</h1><p>화면에 나타나는 별을 빠르게 찾아 잡으세요. 정확한 조작과 집중력이 점수를 높이는 데 도움이 됩니다.</p>
-<div class="actions"><a class="btn" href="/?game=star">스타 캐처 플레이하기</a><a class="btn secondary" href="/">다른 무료 게임 보기</a></div></header>
-<section class="panel"><h2>게임 방법</h2><ol><li>게임 화면을 확인하고 별의 위치를 찾습니다.</li>
-<li>조작 방법에 맞춰 별을 잡습니다.</li>
-<li>실수를 줄이며 최고 점수에 도전하세요.</li></ol></section>
-<section><h2>스타 캐처 소개</h2><p>움직이는 별을 잡으며 점수에 도전하는 무료 미니게임입니다. PlayLab은 별도의 프로그램 설치 없이 브라우저에서 즐길 수 있는 무료 웹게임을 모아 둔 사이트입니다. 잠깐 쉬는 시간에 가볍게 플레이하거나 자신의 기록을 갱신해 보세요.</p><h2>플레이 팁</h2><p>처음에는 조작과 규칙을 익히는 데 집중하고, 익숙해지면 정확도와 속도를 함께 높여 보세요. 짧게 여러 번 도전하면서 자신의 최고 기록을 만들어 가는 것도 좋습니다.</p></section>
-<div class="actions"><a class="btn" href="/?game=star">지금 무료로 시작</a><a class="btn secondary" href="/">PlayLab 홈으로</a></div>
-<footer>© PlayLab 플레이랩 · <a href="/">무료 웹게임 모음</a></footer>
-</main></body></html>
+
+<body>
+<main>
+
+  <nav>
+    <a class="brand" href="/">PlayLab<span>.</span></a>
+    <a class="nav-link" href="/">← 전체 게임 보기</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">⭐ 무료 웹게임 · 설치 불필요</div>
+
+    <h1>별 <span>모으기</span></h1>
+
+    <p>
+      반짝이는 별을 모으며 최고 기록에 도전하세요!
+      주변을 살피고 이동 경로를 계획하면서 별을 모으는 재미를
+      PlayLab에서 경험해 보세요.
+    </p>
+
+    <div class="actions">
+      <a class="btn" href="/?game=star">▶ 지금 플레이하기</a>
+      <a class="btn secondary" href="/">다른 게임 둘러보기</a>
+    </div>
+  </header>
+
+  <section class="quick-info">
+    <div class="info-card">
+      <strong>⚡ 바로 시작</strong>
+      <span>설치 없이 브라우저에서</span>
+    </div>
+
+    <div class="info-card">
+      <strong>⭐ 별 수집 도전</strong>
+      <span>가능한 많은 별을 모으기</span>
+    </div>
+
+    <div class="info-card">
+      <strong>🎮 간단한 조작</strong>
+      <span>이동하며 별을 수집하기</span>
+    </div>
+  </section>
+
+  <section class="content-card">
+    <h2>게임 방법</h2>
+    <ol>
+      <li>화면에 나타나는 별의 위치를 확인하세요.</li>
+      <li>캐릭터나 조작 장치를 움직여 별을 모으세요.</li>
+      <li>이동 경로를 계획하며 가능한 많은 별을 획득하세요.</li>
+      <li>최고 기록에 도전하며 나만의 기록을 만들어 보세요.</li>
+    </ol>
+  </section>
+
+  <section class="content-card">
+    <h2>별 모으기 게임 소개</h2>
+    <p>
+      별 모으기는 화면 곳곳에 있는 별을 찾아 수집하며 기록에 도전하는 게임입니다.
+      주변을 관찰하고 이동 경로를 잘 계획해 더 많은 별을 모아 보세요.
+      짧은 시간에도 부담 없이 즐길 수 있습니다.
+    </p>
+    <p>
+      PlayLab은 별도의 프로그램 설치 없이 브라우저에서 즐길 수 있는
+      무료 웹게임을 모아 둔 공간입니다. 잠깐 쉬는 시간에 가볍게 플레이하거나
+      자신의 최고 기록을 갱신해 보세요.
+    </p>
+  </section>
+
+  <section class="content-card">
+    <h2>플레이 팁</h2>
+    <p>
+      별이 있는 위치와 이동 경로를 먼저 살펴보세요.
+      가까운 별부터 순서대로 모으면 불필요한 이동을 줄일 수 있습니다.
+      주변을 꾸준히 확인하면서 자신만의 전략으로 최고 기록에 도전해 보세요.
+    </p>
+  </section>
+
+  <section class="bottom-cta">
+    <h2>준비됐나요?</h2>
+    <p>지금 별 모으기에 도전해 보세요!</p>
+    <div class="actions">
+      <a class="btn" href="/?game=star">⭐ 무료로 플레이</a>
+      <a class="btn secondary" href="/">PlayLab 홈으로</a>
+    </div>
+  </section>
+
+  <footer>
+    © PlayLab 플레이랩 · <a href="/">무료 웹게임 모음</a>
+  </footer>
+
+</main>
+</body>
+</html>
+```
