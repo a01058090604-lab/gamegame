@@ -136,7 +136,16 @@ async function initOnlineRanking(){
   if(!document.getElementById("rankingPage").hidden) renderRanking();
  }catch(e){console.warn("PlayLab online ranking:",e.message);onlineReady=false;}
 }
-async function syncOnlineProfile(name){if(!supabaseClient||!onlineUser||!name)return;const clean=String(name).trim().slice(0,16);if(!clean)return;const {error}=await supabaseClient.from("profiles").upsert({id:onlineUser.id,nickname:clean,updated_at:new Date().toISOString()});if(error)console.warn("프로필 동기화 실패:",error.message)}
+let lastOnlineProfileSignature='';
+async function syncOnlineProfile(name){
+ if(!supabaseClient||!onlineUser)return;
+ const clean=(String(name||'플레이어').trim().slice(0,16)||'플레이어');
+ const xp=profileXP(),level=profileLevel(xp),signature=onlineUser.id+'|'+clean+'|'+xp+'|'+level;
+ if(signature===lastOnlineProfileSignature)return;
+ const {error}=await supabaseClient.from('profiles').upsert({id:onlineUser.id,nickname:clean,xp,level,updated_at:new Date().toISOString()});
+ if(error){console.warn('프로필 동기화 실패:',error.message);return;}
+ lastOnlineProfileSignature=signature;
+}
 async function submitOnlineScore(gameId,score,lowerBetter=false){if(!onlineReady||!supabaseClient||!onlineUser)return;try{if(state.profileName)await syncOnlineProfile(state.profileName);const {error}=await supabaseClient.rpc("submit_best_score",{p_game_id:gameId,p_score:Math.max(0,Math.floor(Number(score)||0)),p_lower_better:!!lowerBetter});if(error)throw error;if(!document.getElementById("rankingPage").hidden)renderRanking();}catch(e){console.warn("온라인 점수 제출 실패:",e.message)}}
 initOnlineRanking();
 const games=[
@@ -158,7 +167,7 @@ const games=[
 const STORE='playlab_v3';
 let state=loadState(),activeFilter='all',currentGame=null,cleanupGame=null;
 function loadState(){try{return Object.assign({best:{},favorites:[],recent:[],plays:{}},JSON.parse(localStorage.getItem(STORE)||'{}'))}catch(e){return {best:{},favorites:[],recent:[],plays:{}}}}
-function saveState(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){};renderStats();renderRecent();renderRecords();if(document.getElementById("rankingPage")&&!document.getElementById("rankingPage").hidden)renderRanking();if(document.getElementById("profilePage")&&!document.getElementById("profilePage").hidden)renderProfile()}
+function saveState(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){};if(onlineReady&&supabaseClient&&onlineUser)syncOnlineProfile(state.profileName||"플레이어");renderStats();renderRecent();renderRecords();if(document.getElementById("rankingPage")&&!document.getElementById("rankingPage").hidden)renderRanking();if(document.getElementById("profilePage")&&!document.getElementById("profilePage").hidden)renderProfile()}
 function scoreValue(id){return state.best[id]??0}
 function renderStats(){let total=Object.values(state.best).reduce((a,b)=>a+(Number(b)||0),0);document.getElementById('totalBest').innerHTML=total.toLocaleString()+' <span style="font-size:13px;color:var(--muted);letter-spacing:0">PTS</span>';document.getElementById('statCaption').textContent=Object.keys(state.best).length?`기록을 남긴 게임 ${Object.keys(state.best).length}개 · 계속 도전해 봐.`:'첫 기록을 만들어 볼까요?'}
 function renderGames(){const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();const shown=games.filter(g=>(activeFilter==='all'||(activeFilter==='favorite'?state.favorites.includes(g.id):g.category===activeFilter))&&(`${g.title} ${g.desc} ${g.tag}`.toLowerCase().includes(q)));document.getElementById('gamesGrid').innerHTML=shown.length?shown.map(g=>`<article class="game-card"><div class="game-art ${g.art}"><span class="game-tag">${g.tag}</span><button class="fav" aria-label="즐겨찾기 ${g.title}" onclick="toggleFav('${g.id}',event)">${state.favorites.includes(g.id)?'♥':'♡'}</button><span>${g.icon}</span></div><div class="game-info"><div class="game-title-row"><div class="game-title">${g.title}</div><div class="best">${scoreValue(g.id)?'★ '+scoreValue(g.id).toLocaleString():'NEW'}</div></div><div class="game-desc">${g.desc}</div><div class="card-actions"><button class="play-btn" onclick="launchGame('${g.id}')">바로 플레이</button><a class="detail-link" href="?game=${g.id}">상세 보기 ↗</a></div></div></article>`).join(''):'<div class="empty">찾는 게임이 없어. 다른 검색어를 입력해 봐.</div>'}
@@ -306,6 +315,7 @@ function renderProfile(){
    <div class="profile-stat"><strong>${recordCount}</strong><span>최고 기록 보유</span></div>
    <div class="profile-stat"><strong>${favoriteCount}</strong><span>즐겨찾기</span></div>
   </div>
+  <div class="profile-panel" style="margin:14px 0"><h3>🏆 내 전체 레벨 순위</h3><div id="profileLevelRank" class="rank-note">온라인 순위를 불러오는 중…</div><button class="play-btn" style="margin-top:10px" onclick="closeProfile();openRanking()">전체 레벨 랭킹 보기 ↗</button></div>
   <div class="profile-columns">
    <div class="profile-panel"><h3>도전 과제</h3>
     ${achievements.map(a=>`<div class="profile-achievement ${a.ok?'unlocked':''}"><div class="achievement-icon">${a.icon}</div><div><strong>${a.title}</strong><small>${a.desc}</small></div><span class="status">${a.ok?'달성':'미달성'}</span></div>`).join('')}
@@ -313,10 +323,11 @@ function renderProfile(){
    <div class="profile-panel"><h3>최근 플레이</h3>
     ${recent.length?recent.map(g=>`<div class="list-row"><span>${g.icon} &nbsp;${g.title}</span><span>${state.plays[g.id]||0}회</span></div>`).join(''):'<p class="tiny">아직 기록이 없어. 게임 하나부터 시작해 봐!</p>'}
     <h3 style="margin-top:22px">레벨 올리는 방법</h3>
-    <p class="tiny" style="line-height:1.8;margin:0">게임 플레이 1회당 10 XP, 새로운 최고 기록을 만든 게임마다 25 XP, 즐겨찾기 게임마다 5 XP가 반영돼요. 경험치와 기록은 이 브라우저에 저장됩니다.</p>
+    <p class="tiny" style="line-height:1.8;margin:0">게임 플레이 1회당 10 XP, 새로운 최고 기록을 만든 게임마다 25 XP, 즐겨찾기 게임마다 5 XP가 반영돼요. 경험치와 기록은 이 브라우저에 저장되며, 온라인 연결 시 레벨과 경험치가 랭킹에 동기화돼요.</p>
     <button class="play-btn" style="margin-top:14px" onclick="closeProfile();scrollToGames()">게임 더 하기 ↗</button>
    </div>
   </div>`;
+ loadMyLevelRank();
 }
 function escapeProfileName(value){
  return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -357,10 +368,37 @@ function renderRanking(){
  <div class="rank-panel"><div class="rank-tabs">${cats.map(c=>`<button class="rank-tab ${rankingCategory===c[0]?'active':''}" onclick="setRankingCategory('${c[0]}')">${c[1]}</button>`).join('')}</div>
  <div id="onlineStatus" class="rank-note">${!supabaseConfigured()?'온라인 랭킹 설정이 필요해. Supabase 설정을 넣으면 다른 이용자 기록이 표시돼.':onlineReady?'온라인 랭킹 연결됨 · 새로고침하면 최신 기록을 불러와.':'온라인 서버에 연결 중…'}</div>
  <div id="globalRankList"><div class="rank-empty">랭킹 불러오는 중…</div></div>
+ <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)"><h2 style="font-size:18px;margin:0 0 8px">🏆 전체 레벨 랭킹 TOP 10</h2><p class="rank-note">모든 게임에서 모은 경험치(XP)가 높은 순서야.</p><div id="globalLevelRankList"><div class="rank-empty">레벨 랭킹 불러오는 중…</div></div></div>
  <p class="rank-note">게임별로 점수를 비교해. 반응 속도·짝 찾기처럼 낮을수록 좋은 기록은 낮은 값이 위에 표시돼.</p>
  <button class="play-btn" style="margin-top:10px" onclick="renderRanking()">↻ 랭킹 새로고침</button></div>
  <div class="rank-panel"><strong style="font-size:14px">내 랭킹 등록하기</strong><p class="rank-note">프로필에서 닉네임을 설정한 뒤 게임을 플레이하면 최고 기록이 온라인 랭킹에 올라가. 처음 접속할 때 익명 계정이 자동 생성돼.</p><button class="play-btn" style="margin-top:8px" onclick="closeRanking();openProfile()">프로필 설정 ↗</button></div>`;
  loadGlobalRankings();
+ loadLevelRankings();
+}
+async function loadLevelRankings(){
+ const box=document.getElementById('globalLevelRankList');if(!box)return;
+ if(!supabaseConfigured()){box.innerHTML='<div class="rank-empty">Supabase 연결이 필요해.</div>';return;}
+ if(!onlineReady||!supabaseClient){box.innerHTML='<div class="rank-empty">온라인 서버 연결을 기다리는 중이야.</div>';return;}
+ try{
+  await syncOnlineProfile(state.profileName||'플레이어');
+  const {data,error}=await supabaseClient.from('profiles').select('id,nickname,xp,level').order('xp',{ascending:false}).order('updated_at',{ascending:true}).limit(1000);
+  if(error)throw error;
+  const rows=data||[];
+  if(!rows.length){box.innerHTML='<div class="rank-empty">아직 등록된 플레이어가 없어.</div>';return;}
+  box.innerHTML=rows.slice(0,10).map((r,i)=>`<div class="rank-row"><div class="rank-number">${i+1}</div><div class="rank-game"><div><strong>${escapeProfileName(r.nickname||'플레이어')}${r.id===onlineUser?.id?' · 나':''}</strong><small>레벨 ${Math.max(1,Number(r.level)||1)}</small></div></div><div class="rank-score">${Math.max(0,Number(r.xp)||0).toLocaleString()}<small>XP</small></div></div>`).join('');
+ }catch(e){console.error('레벨 랭킹 불러오기 실패:',e);box.innerHTML='<div class="rank-empty">레벨 랭킹을 불러오지 못했어. profiles 테이블의 읽기 정책과 xp·level 컬럼을 확인해 줘.</div>';}
+}
+async function loadMyLevelRank(){
+ const box=document.getElementById('profileLevelRank');if(!box)return;
+ const xp=profileXP(),level=profileLevel(xp);
+ if(!supabaseConfigured()||!onlineReady||!supabaseClient){box.innerHTML=`현재 레벨 ${level} · ${xp.toLocaleString()} XP<br>온라인 연결 후 다른 이용자와 순위를 비교할 수 있어.`;return;}
+ try{
+  await syncOnlineProfile(state.profileName||'플레이어');
+  const {data,error}=await supabaseClient.from('profiles').select('id,nickname,xp,level').order('xp',{ascending:false}).order('updated_at',{ascending:true}).limit(1000);
+  if(error)throw error;
+  const rows=data||[],idx=rows.findIndex(r=>r.id===onlineUser?.id);
+  box.innerHTML=`현재 레벨 <strong>${level}</strong> · <strong>${xp.toLocaleString()} XP</strong><br>${idx>=0?`전체 <strong>${idx+1}위</strong> / ${rows.length}명`:'순위를 확인할 수 없어. 잠시 후 새로고침해 줘.'}`;
+ }catch(e){console.warn('내 레벨 순위 확인 실패:',e.message);box.innerHTML=`현재 레벨 ${level} · ${xp.toLocaleString()} XP<br>온라인 순위를 불러오지 못했어.`;}
 }
 async function loadGlobalRankings(){
  const box=document.getElementById('globalRankList');if(!box)return;
