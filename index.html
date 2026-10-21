@@ -38,7 +38,7 @@
 body.detail-mode #mainContent,body.detail-mode #aboutGames,body.detail-mode .footer,body.detail-mode .bottom-nav{display:none}
 body.detail-mode #detailPage{display:block}
 @media(max-width:760px){.detail-hero{grid-template-columns:1fr;gap:10px}.detail-art{min-height:170px;font-size:76px}.detail-sections{grid-template-columns:1fr}.detail-copy{border-radius:18px}.detail-page{padding-top:12px}}
-@media(max-width:760px){.wrap{width:calc(100% - 24px)}.topbar{height:60px}.hero{grid-template-columns:1fr;padding-top:18px;gap:10px}.hero-main{min-height:235px;border-radius:18px}.hero-art{width:82px;height:82px;font-size:44px;right:16px;bottom:18px;border-radius:22px}.side-hero{min-height:148px;padding:17px}.side-hero h2{font-size:20px}.record-big{font-size:28px}.section-head{align-items:stretch;flex-direction:column;margin-top:24px}.searchbox{width:100%}.games{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.game-art{height:112px;font-size:43px}.game-card{padding:9px;border-radius:15px}.game-title{font-size:14px}.game-desc{font-size:11px;min-height:29px}.lower-grid{grid-template-columns:1fr;gap:10px}.bottom-nav{position:fixed;z-index:5;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#171914f2;backdrop-filter:blur(12px);border-top:1px solid var(--line)}.nav-btn{border:0;background:transparent;color:var(--muted);font-size:10px;padding:5px 2px;display:flex;align-items:center;flex-direction:column;gap:3px}.nav-btn b{font-size:19px;font-weight:500}.nav-btn.active{color:var(--lime)}.footer{padding-bottom:100px}.pill.hide-mobile{display:none}}
+@media(max-width:760px){.desktop-ranking{display:none}.wrap{width:calc(100% - 24px)}.topbar{height:60px}.hero{grid-template-columns:1fr;padding-top:18px;gap:10px}.hero-main{min-height:235px;border-radius:18px}.hero-art{width:82px;height:82px;font-size:44px;right:16px;bottom:18px;border-radius:22px}.side-hero{min-height:148px;padding:17px}.side-hero h2{font-size:20px}.record-big{font-size:28px}.section-head{align-items:stretch;flex-direction:column;margin-top:24px}.searchbox{width:100%}.games{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.game-art{height:112px;font-size:43px}.game-card{padding:9px;border-radius:15px}.game-title{font-size:14px}.game-desc{font-size:11px;min-height:29px}.lower-grid{grid-template-columns:1fr;gap:10px}.bottom-nav{position:fixed;z-index:5;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#171914f2;backdrop-filter:blur(12px);border-top:1px solid var(--line)}.nav-btn{border:0;background:transparent;color:var(--muted);font-size:10px;padding:5px 2px;display:flex;align-items:center;flex-direction:column;gap:3px}.nav-btn b{font-size:19px;font-weight:500}.nav-btn.active{color:var(--lime)}.footer{padding-bottom:100px}.pill.hide-mobile{display:none}}
 @media(min-width:761px) and (max-width:980px){.games{grid-template-columns:repeat(3,minmax(0,1fr))}.game-art{height:115px}}
 
 .profile-page{padding:24px 0 110px}
@@ -84,7 +84,7 @@ body.profile-mode #detailPage{display:none}
 <body>
 <header class="wrap topbar">
   <a class="brand" href="#" aria-label="PlayLab 홈"><span class="brandmark">▶</span><span>playlab<span style="color:var(--lime)">.</span></span></a>
-  <div class="top-right"><button class="pill" onclick="openProfile()" style="background:transparent;cursor:pointer">내 프로필 ↗</button><span class="pill hide-mobile">작게 즐기고, <strong>기록은 크게</strong></span><span class="pill">FREE PLAY</span></div>
+  <div class="top-right"><button class="pill desktop-ranking" onclick="openRanking()" style="background:transparent;cursor:pointer">🏆 온라인 랭킹</button><button class="pill" onclick="openProfile()" style="background:transparent;cursor:pointer">내 프로필 ↗</button><span class="pill hide-mobile">작게 즐기고, <strong>기록은 크게</strong></span><span class="pill">FREE PLAY</span></div>
 </header>
 <main class="wrap" id="mainContent">
   <section class="hero">
@@ -166,7 +166,7 @@ const games=[
 ];
 const STORE='playlab_v3';
 let state=loadState(),activeFilter='all',currentGame=null,cleanupGame=null;
-function loadState(){try{return Object.assign({best:{},favorites:[],recent:[],plays:{}},JSON.parse(localStorage.getItem(STORE)||'{}'))}catch(e){return {best:{},favorites:[],recent:[],plays:{}}}}
+function loadState(){try{const s=Object.assign({best:{},favorites:[],recent:[],plays:{}},JSON.parse(localStorage.getItem(STORE)||'{}'));if(!s.xpInitialized){const plays=Object.values(s.plays||{}).reduce((a,b)=>a+(Number(b)||0),0);s.xpBase=plays*10+Object.keys(s.best||{}).length*25+(s.favorites||[]).length*5;s.xpEvents=[];s.xpInitialized=true;}if(!Array.isArray(s.xpEvents))s.xpEvents=[];return s}catch(e){return {best:{},favorites:[],recent:[],plays:{},xpBase:0,xpEvents:[],xpInitialized:true}}}
 function saveState(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){};if(onlineReady&&supabaseClient&&onlineUser)syncOnlineProfile(state.profileName||"플레이어");renderStats();renderRecent();renderRecords();if(document.getElementById("rankingPage")&&!document.getElementById("rankingPage").hidden)renderRanking();if(document.getElementById("profilePage")&&!document.getElementById("profilePage").hidden)renderProfile()}
 function scoreValue(id){return state.best[id]??0}
 function renderStats(){let total=Object.values(state.best).reduce((a,b)=>a+(Number(b)||0),0);document.getElementById('totalBest').innerHTML=total.toLocaleString()+' <span style="font-size:13px;color:var(--muted);letter-spacing:0">PTS</span>';document.getElementById('statCaption').textContent=Object.keys(state.best).length?`기록을 남긴 게임 ${Object.keys(state.best).length}개 · 계속 도전해 봐.`:'첫 기록을 만들어 볼까요?'}
@@ -176,7 +176,10 @@ function setFilter(f){activeFilter=f;document.querySelectorAll('.filter').forEac
 document.getElementById('filters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(b)setFilter(b.dataset.filter)});
 function renderRecent(){const el=document.getElementById('recentList');const items=state.recent.map(id=>games.find(g=>g.id===id)).filter(Boolean).slice(0,4);el.innerHTML=items.length?items.map(g=>`<div class="list-row"><span>${g.icon} &nbsp;${g.title}</span><span onclick="launchGame('${g.id}')" style="cursor:pointer">다시 하기 ↗</span></div>`).join(''):'<div class="tiny">아직 플레이한 게임이 없어. 하나 골라 시작해 봐.</div>'}
 function renderRecords(){const el=document.getElementById('recordList');const items=games.filter(g=>state.best[g.id]!==undefined).sort((a,b)=>(state.best[b.id]||0)-(state.best[a.id]||0));el.innerHTML=items.length?items.slice(0,6).map(g=>`<div class="list-row"><span>${g.icon} &nbsp;${g.title}</span><span>${Number(state.best[g.id]).toLocaleString()}</span></div>`).join(''):'<div class="tiny">기록이 생기면 여기에 표시돼.</div>'}
-function recordScore(id,score,lowerBetter=false){score=Math.max(0,Math.floor(Number(score)||0));const old=state.best[id];if(old===undefined||(lowerBetter?score<old:score>old)){state.best[id]=score;saveState();renderGames();submitOnlineScore(id,score,lowerBetter);return true}return false}
+function localDayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function awardXP(amount,gameId,reason){const day=localDayKey(),events=state.xpEvents||(state.xpEvents=[]),today=events.filter(e=>e.day===day),gameToday=today.filter(e=>e.gameId===gameId).reduce((n,e)=>n+e.amount,0),totalToday=today.reduce((n,e)=>n+e.amount,0),allowed=Math.max(0,Math.min(amount,100-gameToday,300-totalToday));if(allowed<=0)return 0;events.push({day,gameId,amount:allowed,reason});saveState();return allowed}
+function awardCompletedGame(id,isNewRecord){const day=localDayKey(),events=state.xpEvents||(state.xpEvents=[]),today=events.filter(e=>e.day===day);let gained=awardXP(10,id,'완료');const hadAny=today.some(e=>e.reason==='완료'||e.reason==='첫 게임 보너스');if(!hadAny)gained+=awardXP(20,id,'첫 게임 보너스');if(isNewRecord)gained+=awardXP(15,id,'최고 기록');return gained}
+function recordScore(id,score,lowerBetter=false){score=Math.max(0,Math.floor(Number(score)||0));const old=state.best[id],isNew=old===undefined||(lowerBetter?score<old:score>old);awardCompletedGame(id,isNew);if(isNew){state.best[id]=score;saveState();renderGames();submitOnlineScore(id,score,lowerBetter);return true}return false}
 function launchGame(id){const g=games.find(x=>x.id===id);if(!g)return;currentGame=g;state.recent=[id,...state.recent.filter(x=>x!==id)].slice(0,8);state.plays[id]=(state.plays[id]||0)+1;saveState();document.getElementById('modalTitle').textContent=g.title;document.getElementById('modalCategory').textContent=g.tag+' · '+g.bestLabel;document.getElementById('gameModal').classList.add('open');document.body.style.overflow='hidden';startGame(g)}
 function closeGame(){if(cleanupGame){cleanupGame();cleanupGame=null}document.getElementById('gameModal').classList.remove('open');document.body.style.overflow='';currentGame=null}
 function stage(html){document.getElementById('gameStage').innerHTML=html;document.getElementById('gameControls').innerHTML=''}
@@ -275,9 +278,8 @@ function gameDodge(){
 
 
 function profileXP(){
- const plays=Object.values(state.plays||{}).reduce((a,b)=>a+(Number(b)||0),0);
- const recorded=Object.keys(state.best||{}).length;
- return plays*10+recorded*25+(state.favorites||[]).length*5;
+ const earned=(state.xpEvents||[]).reduce((sum,event)=>sum+Math.max(0,Number(event.amount)||0),0);
+ return Math.max(0,Number(state.xpBase)||0)+earned;
 }
 function profileLevel(xp){return Math.floor(xp/100)+1}
 function renderProfile(){
@@ -323,7 +325,7 @@ function renderProfile(){
    <div class="profile-panel"><h3>최근 플레이</h3>
     ${recent.length?recent.map(g=>`<div class="list-row"><span>${g.icon} &nbsp;${g.title}</span><span>${state.plays[g.id]||0}회</span></div>`).join(''):'<p class="tiny">아직 기록이 없어. 게임 하나부터 시작해 봐!</p>'}
     <h3 style="margin-top:22px">레벨 올리는 방법</h3>
-    <p class="tiny" style="line-height:1.8;margin:0">게임 플레이 1회당 10 XP, 새로운 최고 기록을 만든 게임마다 25 XP, 즐겨찾기 게임마다 5 XP가 반영돼요. 경험치와 기록은 이 브라우저에 저장되며, 온라인 연결 시 레벨과 경험치가 랭킹에 동기화돼요.</p>
+    <p class="tiny" style="line-height:1.8;margin:0">게임 실행만으로는 경험치가 오르지 않아요. 정상적으로 한 판을 끝내면 10 XP, 오늘 첫 완료 게임은 추가 20 XP, 새로운 최고 기록은 추가 15 XP를 받아요. 게임별 하루 최대 100 XP, 전체 하루 최대 300 XP예요. 경험치는 이 브라우저에 저장되고 온라인 연결 시 랭킹에 동기화돼요.</p>
     <button class="play-btn" style="margin-top:14px" onclick="closeProfile();scrollToGames()">게임 더 하기 ↗</button>
    </div>
   </div>`;
