@@ -48,7 +48,7 @@ body.detail-mode #detailPage{display:block}
 .profile-hero{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
 .avatar{width:76px;height:76px;border-radius:22px;background:var(--lime);color:#202218;display:grid;place-items:center;font-size:34px;font-weight:900}
 .profile-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.profile-name-row h2{font-size:24px;letter-spacing:-.05em;margin:0}
+.profile-rank-badge{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel2);font-size:11px;font-weight:800;color:var(--muted);white-space:nowrap}.profile-name-row h2{font-size:24px;letter-spacing:-.05em;margin:0}
 .profile-level{font-size:11px;font-weight:900;background:var(--lime);color:#202218;border-radius:99px;padding:6px 9px}
 .profile-edit{display:flex;gap:7px;margin-top:10px;max-width:420px}
 .profile-edit input{min-width:0;flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:10px 12px}
@@ -304,7 +304,7 @@ function renderProfile(){
   <div class="profile-head"><div><div class="eyebrow">YOUR PLAY SPACE</div><h1>내 프로필</h1><p>플레이 기록과 레벨을 한곳에서 확인해 봐.</p></div><button class="profile-back" onclick="closeProfile()">← 홈으로</button></div>
   <div class="profile-hero">
    <div class="avatar">${escapeProfileName(name).slice(0,1).toUpperCase()||'P'}</div>
-   <div><div class="profile-name-row"><h2>${escapeProfileName(name)}</h2><span class="profile-level">LV. ${level}</span></div>
+   <div><div class="profile-name-row"><h2>${escapeProfileName(name)}</h2><span class="profile-level">LV. ${level}</span><span class="profile-rank-badge" id="profileOnlineRank">랭킹 확인 중…</span></div>
     <p class="tiny" style="margin-top:5px">플레이할수록 경험치가 쌓여요.</p>
     <div class="profile-edit"><input id="profileNameInput" maxlength="16" value="${escapeProfileName(name)}" placeholder="닉네임 입력" aria-label="닉네임"><button onclick="saveProfileName()">저장</button></div>
     <div class="xp-row"><span>경험치 ${xp.toLocaleString()} XP</span><span>다음 레벨까지 ${100-into} XP</span></div><div class="xp-track"><div class="xp-fill" style="width:${into}%"></div></div>
@@ -327,6 +327,20 @@ function renderProfile(){
     <button class="play-btn" style="margin-top:14px" onclick="closeProfile();scrollToGames()">게임 더 하기 ↗</button>
    </div>
   </div>`;
+ loadProfileOnlineRank();
+}
+async function loadProfileOnlineRank(){
+ const badge=document.getElementById('profileOnlineRank');
+ if(!badge)return;
+ if(!supabaseClient||!onlineUser){badge.textContent='온라인 랭킹 연결 중';return;}
+ try{
+  const {data,error}=await supabaseClient.from('profiles').select('id,xp,level').order('xp',{ascending:false}).limit(1000);
+  if(error)throw error;
+  const rows=data||[];
+  const myIndex=rows.findIndex(row=>row.id===onlineUser.id);
+  if(myIndex<0){badge.textContent=`${rows.length+1}위 / ${rows.length+1}명`;return;}
+  badge.textContent=`${myIndex+1}위 / ${rows.length}명`;
+ }catch(e){console.warn('프로필 랭킹 조회 실패:',e.message);badge.textContent='랭킹 집계 중';}
 }
 function escapeProfileName(value){
  return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
