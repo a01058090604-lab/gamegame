@@ -143,19 +143,48 @@ function makeRandomNickname(){
 function supabaseConfigured(){return SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("YOUR_") && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes("YOUR_")}
 async function initOnlineRanking(){
  if(!supabaseConfigured() || !window.supabase?.createClient) return;
- try{supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);let {data,error}=await supabaseClient.auth.getSession();if(error)throw error;
-  if(!data.session){const result=await supabaseClient.auth.signInAnonymously();if(result.error)throw result.error;data=result.data;}
-  onlineUser=data.session?.user||null;onlineReady=!!onlineUser;
+ try{
+  supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  let {data,error}=await supabaseClient.auth.getSession();
+  if(error) throw error;
+  if(!data.session){
+   const result=await supabaseClient.auth.signInAnonymously();
+   if(result.error) throw result.error;
+   data=result.data;
+  }
+  onlineUser=data.session?.user||null;
+  onlineReady=!!onlineUser;
   if(onlineUser){
-   // 기존 Supabase 프로필을 먼저 확인해 저장된 닉네임을 덮어쓰지 않음
-   const {data:existingProfile,error:profileReadError}=await supabaseClient.from('profiles').select('nickname').eq('id',onlineUser.id).maybeSingle();
-   if(profileReadError) console.warn('기존 닉네임 확인 실패:',profileReadError.message);
-   if(!state.profileName && existingProfile?.nickname){state.profileName=String(existingProfile.nickname).slice(0,16);try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){}}
-   if(!state.profileName){state.profileName=makeRandomNickname();try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){}}
-   await syncOnlineProfile(state.profileName);
+   // 먼저 서버 프로필을 확인한다. 조회 실패 시에는 닉네임을 생성하거나 서버에 쓰지 않는다.
+   const {data:existingProfile,error:profileReadError}=await supabaseClient
+    .from('profiles').select('nickname').eq('id',onlineUser.id).maybeSingle();
+   if(profileReadError){
+    console.warn('기존 닉네임 확인 실패; 닉네임 동기화를 건너뜁니다:',profileReadError.message);
+   } else {
+    const serverName=String(existingProfile?.nickname||'').trim().slice(0,16);
+    const localName=String(state.profileName||'').trim().slice(0,16);
+    const localIsPlaceholder=!localName || localName==='플레이어';
+
+    // 서버에 저장된 닉네임이 있으면 서버 값을 기준으로 복원해 재방문 시 이름이 바뀌지 않게 한다.
+    if(serverName){
+     if(state.profileName!==serverName){
+      state.profileName=serverName;
+      try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
+     }
+     // 기존 프로필의 닉네임은 초기화 과정에서 절대 upsert로 덮어쓰지 않는다.
+    } else {
+     // 서버 프로필이 없을 때만 로컬 사용자 지정 이름을 유지하거나 새 이름을 생성한다.
+     if(!localName || localName==='플레이어') state.profileName=makeRandomNickname();
+     try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){}
+     await syncOnlineProfile(state.profileName);
+    }
+   }
   }
   if(!document.getElementById("rankingPage").hidden) renderRanking();
- }catch(e){console.warn("PlayLab online ranking:",e.message);onlineReady=false;}
+ }catch(e){
+  console.warn("PlayLab online ranking:",e.message);
+  onlineReady=false;
+ }
 }
 async function syncOnlineProfile(name){
  if(!supabaseClient||!onlineUser)return;
