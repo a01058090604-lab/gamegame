@@ -2,36 +2,350 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#10121c">
-<meta name="description" content="PlayLab에서 무료 브라우저 게임을 즐겨보세요.">
+<meta name="description" content="PlayLab에서 무료로 즐기는 브라우저 웹게임. 스타 대시, 블록 브레이커, 숫자 합치기, 반응 속도 테스트를 플레이하세요.">
+<meta property="og:title" content="PlayLab - 무료 웹게임 포털">
+<meta property="og:description" content="설치 없이 바로 플레이하는 무료 브라우저 게임">
 <title>PlayLab - 무료 웹게임 포털</title>
 <style>
-:root{color-scheme:dark;--bg:#10121c;--panel:#191d2b;--muted:#a6adc3;--accent:#9b8cff;--line:#2c3246}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:#f7f7ff;background:var(--bg)}button,input{font:inherit;border-radius:12px;padding:12px 14px}button{cursor:pointer;border:0;background:var(--accent);color:#151225;font-weight:800}header{position:sticky;top:0;z-index:5;background:#10121cf2;border-bottom:1px solid var(--line);padding:16px}.nav,main,footer{width:min(1100px,100%);margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{font-size:23px;font-weight:900;color:var(--accent)}.nav a{font-size:13px;text-decoration:none;color:var(--muted)}main{padding:22px 16px 50px}.hero{padding:32px 22px;border:1px solid #35304e;border-radius:24px;background:radial-gradient(ellipse at top right,#483879,transparent 65%),var(--panel)}.eyebrow{color:#c1b7ff;font-size:12px;font-weight:800;letter-spacing:2px}h1{font-size:clamp(32px,8vw,54px);line-height:1.12;margin:14px 0}.hero p,.muted{color:var(--muted);line-height:1.7}.search{display:flex;gap:8px;margin-top:24px}input{min-width:0;flex:1;color:white;background:#10121c;border:1px solid #424760}.ad{min-height:86px;display:grid;place-items:center;margin:22px 0;padding:16px;border:1px dashed #444a61;border-radius:14px;color:#8c93aa;text-align:center;font-size:12px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:30px 0 16px}h2{font-size:22px;margin:0}.filters{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px}.filters button{white-space:nowrap;background:var(--panel);color:#d7daf0;border:1px solid var(--line)}.filters button.active{background:var(--accent);color:#151225}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}.game{overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:17px}.cover{min-height:115px;display:grid;place-items:center;font-size:45px;background:linear-gradient(145deg,#34365d,#202337)}.game-info{padding:13px}.game h3{font-size:15px;margin:0 0 6px}.game p{color:var(--muted);font-size:12px;margin:0 0 12px}.game button{width:100%;font-size:13px}.game-section{margin-top:36px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}canvas{display:block;width:100%;max-width:600px;margin:16px auto;background:#111827;border-radius:12px;border:1px solid var(--line)}.game-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.hidden{display:none!important}footer{padding:25px 16px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.8}footer a{margin-right:12px}@media(min-width:700px){main{padding-top:32px}.hero{padding:48px}.cover{min-height:145px}}
+:root{color-scheme:dark;--bg:#10121c;--panel:#191d2b;--panel2:#20263a;--muted:#a6adc3;--accent:#9b8cff;--line:#2c3246;--good:#79e2b1;--danger:#ff8095}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#f7f7ff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}
+button{cursor:pointer;touch-action:manipulation}
+a{color:inherit}
+header{position:sticky;top:0;z-index:20;background:#10121cf2;border-bottom:1px solid var(--line);backdrop-filter:blur(12px);padding:12px 16px}
+.nav,main,footer{width:min(1100px,100%);margin:auto}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-weight:950;font-size:24px;letter-spacing:-1px;color:var(--accent);text-decoration:none}
+.navlinks{display:flex;gap:14px;align-items:center}.navlinks a{font-size:13px;color:var(--muted);text-decoration:none}
+main{padding:22px 16px 48px}
+.hero{padding:clamp(24px,6vw,44px) clamp(18px,5vw,36px);border:1px solid #35304e;border-radius:24px;background:radial-gradient(ellipse at 90% 0%,#483879,transparent 58%),linear-gradient(135deg,#191d2b,#171727)}
+.eyebrow{font-size:11px;letter-spacing:2px;font-weight:900;color:#c1b7ff}
+h1{font-size:clamp(34px,8vw,58px);line-height:1.08;letter-spacing:-1.8px;margin:12px 0}
+.hero p,.muted{color:var(--muted);line-height:1.65}
+.searchrow{display:flex;gap:8px;margin-top:22px}
+input{min-width:0;flex:1;padding:13px 14px;color:#fff;background:#10121c;border:1px solid #424760;border-radius:12px;outline:none}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #9b8cff24}
+.btn{border:0;border-radius:12px;padding:12px 15px;background:var(--accent);color:#151225;font-weight:850}
+.btn.secondary{background:#2b3045;color:#f5f4ff;border:1px solid #424760}
+.btn:active,.game button:active{transform:scale(.98)}
+.ad{min-height:76px;display:grid;place-items:center;margin:20px 0;padding:15px;border:1px dashed #444a61;border-radius:14px;color:#8c93aa;text-align:center;font-size:12px}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:28px 0 14px}
+h2{font-size:21px;margin:0;letter-spacing:-.4px}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:2px 0 13px;scrollbar-width:thin}
+.filters button{white-space:nowrap;background:var(--panel);color:#d7daf0;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:13px}
+.filters button.active{background:var(--accent);color:#151225;border-color:var(--accent);font-weight:850}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gamecard{overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:17px;min-width:0}
+.cover{min-height:115px;display:grid;place-items:center;font-size:48px;background:linear-gradient(145deg,#34365d,#202337);position:relative}
+.cover::after{content:"";position:absolute;inset:auto 0 0;height:30%;background:linear-gradient(transparent,#191d2b55)}
+.gameinfo{padding:13px}
+.gameinfo h3{font-size:15px;margin:0 0 5px}
+.gameinfo p{font-size:12px;color:var(--muted);margin:0 0 12px;min-height:32px;line-height:1.4}
+.tag{display:inline-block;color:#c1b7ff;background:#2d2947;border-radius:7px;font-size:10px;padding:4px 7px;margin-bottom:8px}
+.gameinfo .btn{width:100%;font-size:13px;padding:10px}
+.empty{display:none;padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+.gamepanel{display:none;margin-top:24px;padding:16px;border:1px solid var(--line);border-radius:20px;background:var(--panel);scroll-margin-top:80px}
+.gamepanel.open{display:block}
+.gamehead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.gamehead h2{margin-bottom:5px}
+.gamehead p{font-size:13px;color:var(--muted);margin:0;line-height:1.5}
+.gameactions{display:flex;gap:8px;flex-shrink:0}
+.gameactions button{padding:9px 11px}
+.playarea{margin-top:16px}
+canvas{display:block;width:100%;max-width:620px;height:auto;margin:0 auto;background:#101522;border:1px solid #343b55;border-radius:14px;touch-action:manipulation}
+.hint{text-align:center;font-size:12px;line-height:1.6;color:var(--muted);margin:12px 0 0}
+.scoreline{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px auto}
+.scorepill{padding:8px 12px;background:#101522;border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--muted)}
+.scorepill strong{color:#fff;margin-left:5px}
+.touchrow{display:flex;justify-content:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.touchrow button{min-width:74px;min-height:46px;font-size:18px}
+.mergeboard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;width:min(100%,420px);margin:14px auto;padding:8px;background:#343049;border-radius:14px;touch-action:manipulation}
+.tile{display:grid;place-items:center;aspect-ratio:1;border-radius:9px;background:#4a4d66;color:#fff;font-size:clamp(17px,5vw,27px);font-weight:900;user-select:none}
+.tile[data-v="0"]{background:#25283b;color:transparent}
+.tile[data-v="2"]{background:#e9e4d8;color:#343044}.tile[data-v="4"]{background:#d9c8ff;color:#30264a}.tile[data-v="8"]{background:#aa91ff}.tile[data-v="16"]{background:#8c77f3}.tile[data-v="32"]{background:#7063df}.tile[data-v="64"]{background:#594ac2}.tile[data-v="128"],.tile[data-v="256"],.tile[data-v="512"]{background:#efad64;color:#2c2030;font-size:clamp(15px,4vw,22px)}.tile[data-v="1024"],.tile[data-v="2048"]{background:#ffdc72;color:#30243b;font-size:clamp(13px,3.5vw,20px)}
+.reactbox{width:min(100%,520px);min-height:220px;margin:12px auto 0;border-radius:16px;border:1px solid var(--line);background:#252a3d;color:#fff;font-size:20px;font-weight:850;display:grid;place-items:center;text-align:center;padding:24px;user-select:none}
+.reactbox.waiting{background:#8d334c}.reactbox.ready{background:#287b59}.reactbox.toosoon{background:#77512e}
+footer{padding:26px 16px 38px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.8}
+footer a{color:#c1b7ff;text-decoration:none;margin-right:12px}
+.notice{font-size:12px;color:var(--muted);line-height:1.7}
+@media(min-width:620px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.cover{min-height:140px}.gameinfo{padding:15px}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:420px){header{padding:11px 12px}.navlinks{gap:9px}.navlinks a{font-size:12px}main{padding:16px 12px 38px}.hero{border-radius:19px}.searchrow{flex-direction:column}.searchrow .btn{width:100%}.gamehead{flex-direction:column}.gameactions{width:100%}.gameactions button{flex:1}.grid{gap:9px}.gameinfo{padding:10px}.cover{min-height:100px;font-size:42px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header><div class="nav"><div class="logo">✦ PlayLab</div><a href="#games">게임 둘러보기 ↓</a></div></header>
+<header>
+  <div class="nav">
+    <a class="logo" href="#" aria-label="PlayLab 홈">PLAYLAB<span style="color:#fff">.</span></a>
+    <nav class="navlinks" aria-label="주요 메뉴">
+      <a href="#games">게임 목록</a>
+      <a href="#about">안내</a>
+    </nav>
+  </div>
+</header>
 <main>
-<section class="hero"><div class="eyebrow">PLAY • DISCOVER • REPEAT</div><h1>오늘은 어떤 게임을<br>플레이할까요?</h1><p>설치 없이 브라우저에서 바로 즐기는 게임 공간.</p><div class="search"><input id="search" type="search" placeholder="게임 이름 검색..." aria-label="게임 검색"><button id="searchBtn">검색</button></div></section>
-<div class="ad">광고 영역 · 광고 네트워크 승인 후 광고 코드를 연결하세요.</div>
-<section id="games"><div class="section-head"><h2>게임 탐색</h2><span class="muted" id="count">1개 게임</span></div><div class="filters" id="filters"><button class="active" data-category="전체">전체</button><button data-category="캐주얼">캐주얼</button><button data-category="퍼즐">퍼즐</button><button data-category="액션">액션</button></div><div class="grid" id="grid"></div></section>
-<section class="game-section" id="play"><h2>⭐ 스타 대시</h2><p class="muted">화면을 탭하거나 점프 버튼을 눌러 장애물을 피하세요. 직접 만든 미니게임입니다.</p><canvas id="gameCanvas" width="600" height="240" aria-label="스타 대시 게임 화면"></canvas><div class="game-controls"><button id="startBtn">게임 시작 / 다시 시작</button><button id="jumpBtn">점프</button></div><p id="status" class="muted" aria-live="polite">게임 시작을 눌러 플레이하세요.</p></section>
-<div class="ad">광고 영역 · 실제 광고를 표시하기 전 광고 정책과 콘텐츠 품질을 확인하세요.</div>
-<section class="game-section"><h2>저작권 안내</h2><p class="muted">현재 제공되는 스타 대시는 이 페이지용으로 작성한 자체 제작 미니게임입니다. 외부 게임을 추가할 때는 재배포·호스팅 권한과 출처, 라이선스, 허가 증빙을 확인한 뒤 공개하세요. 카탈로그에 표시된 게임 수는 실제 제공 중인 게임만 계산합니다.</p></section>
+  <section class="hero">
+    <div class="eyebrow">PLAY · DISCOVER · REPEAT</div>
+    <h1>지금 바로<br><span style="color:var(--accent)">플레이!</span></h1>
+    <p>설치 없이 브라우저에서 즐기는 무료 미니게임.<br>마음에 드는 게임을 찾아 바로 시작해 봐.</p>
+    <form class="searchrow" id="searchForm" role="search">
+      <input id="searchInput" type="search" placeholder="게임 이름 또는 장르 검색..." aria-label="게임 검색">
+      <button class="btn" type="submit">게임 찾기</button>
+    </form>
+  </section>
+
+  <div class="ad" aria-label="광고 영역">광고 영역 · 광고 네트워크 승인 후 광고 코드를 여기에 추가하세요.</div>
+
+  <section id="games">
+    <div class="sectionhead"><h2>게임 탐험</h2><span id="gameCount" class="muted" style="font-size:12px">4개 게임</span></div>
+    <div class="filters" role="group" aria-label="카테고리 필터">
+      <button class="active" data-category="all" type="button">전체</button>
+      <button data-category="arcade" type="button">아케이드</button>
+      <button data-category="puzzle" type="button">퍼즐</button>
+      <button data-category="reaction" type="button">반응 속도</button>
+    </div>
+    <div class="grid" id="gameGrid">
+      <article class="gamecard" data-title="스타 대시 star dash" data-category="arcade">
+        <div class="cover">🚀</div><div class="gameinfo"><span class="tag">아케이드</span><h3>스타 대시</h3><p>점프해서 장애물을 피하고 기록을 세워 봐.</p><button class="btn" data-play="star" type="button">플레이</button></div>
+      </article>
+      <article class="gamecard" data-title="블록 브레이커 brick breaker" data-category="arcade">
+        <div class="cover" style="background:linear-gradient(145deg,#594276,#202337)">🧱</div><div class="gameinfo"><span class="tag">아케이드</span><h3>블록 브레이커</h3><p>패들을 움직여 공으로 모든 블록을 깨자.</p><button class="btn" data-play="brick" type="button">플레이</button></div>
+      </article>
+      <article class="gamecard" data-title="숫자 합치기 2048 숫자 퍼즐" data-category="puzzle">
+        <div class="cover" style="background:linear-gradient(145deg,#5b4b70,#202337)">🔢</div><div class="gameinfo"><span class="tag">퍼즐</span><h3>숫자 합치기</h3><p>같은 숫자를 합쳐 2048 타일에 도전!</p><button class="btn" data-play="merge" type="button">플레이</button></div>
+      </article>
+      <article class="gamecard" data-title="반응 속도 테스트 reflex reaction" data-category="reaction">
+        <div class="cover" style="background:linear-gradient(145deg,#356c62,#202337)">⚡</div><div class="gameinfo"><span class="tag">반응 속도</span><h3>반응 속도 테스트</h3><p>초록색으로 바뀌는 순간 빠르게 터치해 봐.</p><button class="btn" data-play="reaction" type="button">플레이</button></div>
+      </article>
+    </div>
+    <div id="emptyState" class="empty">검색 결과가 없어. 다른 검색어를 입력해 봐.</div>
+  </section>
+
+  <section class="gamepanel" id="gamePanel" aria-live="polite">
+    <div class="gamehead">
+      <div><h2 id="activeTitle">게임</h2><p id="activeDescription">게임 설명</p></div>
+      <div class="gameactions"><button class="btn secondary" id="restartBtn" type="button">다시 시작</button><button class="btn secondary" id="closeBtn" type="button" aria-label="게임 닫기">닫기 ✕</button></div>
+    </div>
+    <div class="playarea" id="playArea"></div>
+  </section>
+
+  <div class="ad" aria-label="광고 영역">광고 영역 · 게임 플레이를 방해하지 않는 위치에 광고를 배치하세요.</div>
+
+  <section id="about" style="margin-top:30px">
+    <div class="sectionhead"><h2>PlayLab 안내</h2></div>
+    <p class="notice">이 사이트의 미니게임은 이 페이지에서 직접 실행되는 자체 제작 게임입니다. 외부 게임을 추가할 경우에는 상업적 이용 및 재배포 권한을 먼저 확인하고 기록하세요. 광고는 아직 연결되지 않은 자리 표시자입니다.</p>
+  </section>
 </main>
-<footer><p>© <span id="year"></span> PlayLab. All rights reserved.</p><a href="#privacy">개인정보 안내</a><a href="#terms">이용 안내</a><p id="privacy">개인정보 안내: 이 데모는 별도 계정이나 분석 스크립트를 사용하지 않습니다. 실제 서비스 전 개인정보 처리방침을 서비스 운영 방식에 맞게 작성하세요.</p><p id="terms">이용 안내: 본 사이트의 게임은 오락 목적입니다. 광고와 외부 게임을 추가하기 전에 관련 법률 및 각 라이선스 조건을 확인하세요.</p></footer>
+<footer>
+  <div><a href="#about">사이트 안내</a><a href="#policy" id="privacyLink">개인정보 안내</a><a href="#license" id="licenseLink">저작권·라이선스</a></div>
+  <p id="policy">개인정보 처리방침: 현재 버전은 게임 점수를 서버로 전송하지 않습니다. 향후 분석 도구나 광고를 추가하면 실제 수집 항목과 제3자 제공 여부를 반영해 정책을 업데이트하세요.</p>
+  <p id="license">저작권: 이 페이지의 게임 코드는 PlayLab용으로 직접 작성한 예시입니다. 외부 게임·이미지·음악을 추가할 때는 해당 라이선스를 확인하세요.</p>
+  <p>© <span id="year"></span> PlayLab. Play fair, have fun.</p>
+</footer>
+
 <script>
-const games=[{title:"스타 대시",category:"캐주얼",icon:"⭐",description:"점프하며 장애물을 피하세요.",action:"play"}];
-const grid=document.getElementById("grid"),search=document.getElementById("search"),count=document.getElementById("count");let category="전체";
-function render(){const q=search.value.trim().toLowerCase();const shown=games.filter(g=>(category==="전체"||g.category===category)&&g.title.toLowerCase().includes(q));grid.innerHTML=shown.map(g=>`<article class="game"><div class="cover" aria-hidden="true">${g.icon}</div><div class="game-info"><h3>${g.title}</h3><p>${g.category} · ${g.description}</p><button data-play="${g.action}">지금 플레이</button></div></article>`).join("");count.textContent=shown.length+"개 게임";grid.querySelectorAll("[data-play]").forEach(b=>b.addEventListener("click",()=>document.getElementById("play").scrollIntoView({behavior:"smooth"})));}
-document.getElementById("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-category]");if(!b)return;category=b.dataset.category;document.querySelectorAll("#filters button").forEach(x=>x.classList.toggle("active",x===b));render()});document.getElementById("searchBtn").addEventListener("click",render);search.addEventListener("input",render);document.getElementById("year").textContent=new Date().getFullYear();render();
-const canvas=document.getElementById("gameCanvas"),ctx=canvas.getContext("2d"),statusEl=document.getElementById("status");let running=false,raf=0,playerY=170,velocity=0,obstacleX=620,score=0,last=0;
-function reset(){cancelAnimationFrame(raf);running=true;playerY=170;velocity=0;obstacleX=620;score=0;last=0;statusEl.textContent="플레이 중! 장애물을 피하세요.";raf=requestAnimationFrame(loop)}
-function jump(){if(running&&playerY>=169)velocity=-340}
-function loop(t){if(!running)return;const dt=Math.min((t-last)/1000||0,0.035);last=t;velocity+=850*dt;playerY+=velocity*dt;if(playerY>170){playerY=170;velocity=0}obstacleX-=230*dt;if(obstacleX< -30){obstacleX=620;score++}ctx.clearRect(0,0,600,240);ctx.fillStyle="#182039";ctx.fillRect(0,205,600,35);ctx.fillStyle="#9b8cff";ctx.fillRect(65,playerY,30,35);ctx.font="28px sans-serif";ctx.fillText("⭐",65,playerY+27);ctx.fillStyle="#ff7d8c";ctx.fillRect(obstacleX,177,24,28);ctx.fillStyle="#fff";ctx.font="16px system-ui";ctx.fillText("점수: "+score,15,25);if(obstacleX<95&&obstacleX>45&&playerY>140){running=false;statusEl.textContent="게임 종료! 점수: "+score+"점. 다시 시작해 보세요.";return}raf=requestAnimationFrame(loop)}
-document.getElementById("startBtn").addEventListener("click",reset);document.getElementById("jumpBtn").addEventListener("click",jump);canvas.addEventListener("pointerdown",jump);document.addEventListener("keydown",e=>{if(e.code==="Space"||e.code==="ArrowUp"){if(document.activeElement.tagName!=="INPUT"){e.preventDefault();jump()}}});
+(() => {
+  "use strict";
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+  const searchInput = $("#searchInput");
+  const cards = $$(".gamecard");
+  let category = "all";
+  let activeGame = null;
+  let cleanupGame = null;
+
+  $("#year").textContent = new Date().getFullYear();
+
+  function filterGames() {
+    const q = searchInput.value.trim().toLocaleLowerCase("ko");
+    let count = 0;
+    cards.forEach(card => {
+      const matchText = card.dataset.title.toLocaleLowerCase("ko").includes(q);
+      const matchCategory = category === "all" || card.dataset.category === category;
+      card.hidden = !(matchText && matchCategory);
+      if (!card.hidden) count++;
+    });
+    $("#gameCount").textContent = `${count}개 게임`;
+    $("#emptyState").style.display = count ? "none" : "block";
+  }
+  searchInput.addEventListener("input", filterGames);
+  $("#searchForm").addEventListener("submit", e => { e.preventDefault(); filterGames(); $("#games").scrollIntoView({behavior:"smooth"}); });
+  $$(".filters button").forEach(btn => btn.addEventListener("click", () => {
+    category = btn.dataset.category;
+    $$(".filters button").forEach(b => b.classList.toggle("active", b === btn));
+    filterGames();
+  }));
+
+  function stopGame() {
+    if (cleanupGame) cleanupGame();
+    cleanupGame = null;
+    activeGame = null;
+    $("#playArea").replaceChildren();
+  }
+  function openGame(id) {
+    stopGame();
+    activeGame = id;
+    const meta = {
+      star: ["스타 대시", "화면을 탭하거나 점프 버튼을 눌러 장애물을 피하세요."],
+      brick: ["블록 브레이커", "화면을 좌우로 움직이거나 패들 버튼으로 공을 받아 보세요."],
+      merge: ["숫자 합치기", "방향 버튼이나 키보드 화살표로 같은 숫자를 합치세요."],
+      reaction: ["반응 속도 테스트", "시작을 누른 뒤 초록색으로 바뀌면 가능한 한 빨리 터치하세요."]
+    }[id];
+    $("#activeTitle").textContent = meta[0];
+    $("#activeDescription").textContent = meta[1];
+    $("#gamePanel").classList.add("open");
+    if (id === "star") cleanupGame = startStar();
+    if (id === "brick") cleanupGame = startBrick();
+    if (id === "merge") cleanupGame = startMerge();
+    if (id === "reaction") cleanupGame = startReaction();
+    $("#gamePanel").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+  cards.forEach(card => $("[data-play]", card).addEventListener("click", () => openGame($("[data-play]", card).dataset.play)));
+  $("#closeBtn").addEventListener("click", () => { stopGame(); $("#gamePanel").classList.remove("open"); $("#games").scrollIntoView({behavior:"smooth"}); });
+  $("#restartBtn").addEventListener("click", () => { if (activeGame) openGame(activeGame); });
+
+  function makeCanvas(width, height) {
+    const c = document.createElement("canvas");
+    c.width = width; c.height = height;
+    c.setAttribute("aria-label", "게임 화면");
+    $("#playArea").append(c);
+    return [c, c.getContext("2d")];
+  }
+  function addHint(text) {
+    const p = document.createElement("p"); p.className = "hint"; p.textContent = text; $("#playArea").append(p); return p;
+  }
+  function addScore(label, value="0") {
+    const row = document.createElement("div"); row.className = "scoreline";
+    const pill = document.createElement("div"); pill.className = "scorepill";
+    pill.append(document.createTextNode(label + " "));
+    const strong = document.createElement("strong"); strong.textContent = value; pill.append(strong); row.append(pill); $("#playArea").append(row);
+    return v => strong.textContent = String(v);
+  }
+  function addButtonRow(items) {
+    const row = document.createElement("div"); row.className = "touchrow";
+    items.forEach(({text, label, click}) => { const b=document.createElement("button"); b.className="btn secondary"; b.type="button"; b.textContent=text; b.setAttribute("aria-label",label||text); b.addEventListener("click",click); row.append(b); });
+    $("#playArea").append(row); return row;
+  }
+
+  function startStar() {
+    const [c,ctx] = makeCanvas(600,300);
+    const scoreText = addScore("점수", "0");
+    const hint = addHint("탭 / 점프 버튼 / 스페이스 키로 점프 · 장애물에 닿으면 게임 종료");
+    const jumpBtn = document.createElement("button"); jumpBtn.className="btn"; jumpBtn.type="button"; jumpBtn.textContent="점프 ↑";
+    const row=document.createElement("div"); row.className="touchrow"; row.append(jumpBtn); $("#playArea").append(row);
+    let raf=0, last=0, score=0, speed=4, over=false, started=false, playerY=220, vy=0, obstacles=[], spawn=0;
+    const ground=242;
+    function jump(){if(over){reset();return;} started=true;if(playerY>=ground-1)vy=-12;}
+    function reset(){score=0;speed=4;over=false;started=false;playerY=220;vy=0;obstacles=[];spawn=0;last=0;scoreText(0);}
+    const key=e=>{if(["Space","ArrowUp"].includes(e.code)){e.preventDefault();jump();}};
+    const tap=e=>{if(e.target===jumpBtn)return;jump();};
+    window.addEventListener("keydown",key); c.addEventListener("pointerdown",tap); jumpBtn.addEventListener("click",jump);
+    function frame(t){
+      if(!$("#gamePanel").classList.contains("open")||activeGame!=="star")return;
+      const dt=Math.min((t-last)/16.67||1,2);last=t;
+      ctx.clearRect(0,0,600,300);
+      const grad=ctx.createLinearGradient(0,0,0,300);grad.addColorStop(0,"#171a30");grad.addColorStop(1,"#242040");ctx.fillStyle=grad;ctx.fillRect(0,0,600,300);
+      ctx.fillStyle="#fff";for(let i=0;i<24;i++){const x=(i*79+30)%600,y=(i*37+15)%180;ctx.globalAlpha=.35+(i%4)*.15;ctx.fillRect(x,y,2,2);}ctx.globalAlpha=1;
+      ctx.fillStyle="#4d467b";ctx.fillRect(0,ground+22,600,36);ctx.fillStyle="#9b8cff";ctx.fillRect(0,ground+20,600,3);
+      if(started&&!over){vy+=.58*dt;playerY=Math.min(ground,playerY+vy*dt);if(playerY>=ground)vy=0;score+=dt*.18;speed=Math.min(8,speed+dt*.001);spawn+=dt;if(spawn>Math.max(38,82-speed*5)){obstacles.push({x:620,w:20+Math.random()*17,h:25+Math.random()*30});spawn=0;}obstacles.forEach(o=>o.x-=speed*dt);obstacles=obstacles.filter(o=>o.x>-40);for(const o of obstacles){if(70+28>o.x&&70<o.x+o.w&&playerY+22>ground-o.h){over=true;hint.textContent="게임 종료! 점수 "+Math.floor(score)+"점 · 점프 버튼을 누르면 다시 시작";}}scoreText(Math.floor(score));}
+      ctx.fillStyle="#9b8cff";ctx.beginPath();ctx.roundRect(70,playerY-22,28,22,7);ctx.fill();ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(88,playerY-14,3,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#ff8095";obstacles.forEach(o=>{ctx.beginPath();ctx.roundRect(o.x,ground-o.h,o.w,o.h,5);ctx.fill();});
+      if(!started&&!over){ctx.fillStyle="#fff";ctx.font="bold 22px system-ui";ctx.textAlign="center";ctx.fillText("탭해서 시작!",300,110);}
+      if(over){ctx.fillStyle="#fff";ctx.font="bold 26px system-ui";ctx.textAlign="center";ctx.fillText("GAME OVER",300,105);}
+      raf=requestAnimationFrame(frame);
+    }
+    raf=requestAnimationFrame(frame);
+    return ()=>{cancelAnimationFrame(raf);window.removeEventListener("keydown",key);c.removeEventListener("pointerdown",tap);};
+  }
+
+  function startBrick() {
+    const [c,ctx]=makeCanvas(600,360);
+    const scoreText=addScore("점수","0");
+    const hint=addHint("화면을 터치해 패들을 이동하세요. 공이 떨어지면 다시 시작할 수 있어요.");
+    const row=addButtonRow([{text:"◀",label:"패들 왼쪽",click:()=>{paddle.x-=36;}},{text:"● 시작 / 발사",click:()=>{if(over)reset();else launched=true;}},{text:"▶",label:"패들 오른쪽",click:()=>{paddle.x+=36;}}]);
+    let raf=0,last=0,score=0,lives=3,over=false,won=false,launched=false;
+    const paddle={x:255,y:325,w:90,h:12};
+    let ball={x:300,y:308,vx:3,vy:-4,r:7};
+    let bricks=[];
+    function makeBricks(){bricks=[];for(let r=0;r<5;r++)for(let col=0;col<9;col++)bricks.push({x:24+col*62,y:42+r*25,w:53,h:15,alive:true,color:["#9b8cff","#7c91ff","#79e2b1","#ffca7a","#ff8095"][r]});}
+    function reset(){score=0;lives=3;over=false;won=false;launched=false;ball={x:paddle.x+paddle.w/2,y:308,vx:3,vy:-4,r:7};paddle.x=255;makeBricks();scoreText(0);hint.textContent="화면을 터치해 패들을 이동하세요. 공이 떨어지면 다시 시작할 수 있어요.";}
+    makeBricks();
+    function move(e){const rect=c.getBoundingClientRect();paddle.x=(e.clientX-rect.left)/rect.width*600-paddle.w/2;paddle.x=Math.max(0,Math.min(600-paddle.w,paddle.x));if(!launched){ball.x=paddle.x+paddle.w/2;}}
+    c.addEventListener("pointermove",move);c.addEventListener("pointerdown",e=>{move(e);launched=true;});
+    function frame(t){if(!$("#gamePanel").classList.contains("open")||activeGame!=="brick")return;const dt=Math.min((t-last)/16.67||1,2);last=t;
+      ctx.clearRect(0,0,600,360);ctx.fillStyle="#111522";ctx.fillRect(0,0,600,360);
+      bricks.forEach(b=>{if(!b.alive)return;ctx.fillStyle=b.color;ctx.beginPath();ctx.roundRect(b.x,b.y,b.w,b.h,4);ctx.fill();});
+      ctx.fillStyle="#9b8cff";ctx.beginPath();ctx.roundRect(paddle.x,paddle.y,paddle.w,paddle.h,6);ctx.fill();
+      if(!launched&&!over&&!won){ball.x=paddle.x+paddle.w/2;ball.y=paddle.y-12;}
+      if(launched&&!over&&!won){
+        ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;
+        if(ball.x<ball.r||ball.x>600-ball.r)ball.vx*=-1;if(ball.y<ball.r)ball.vy=Math.abs(ball.vy);
+        if(ball.vy>0&&ball.y+ball.r>=paddle.y&&ball.y-ball.r<=paddle.y+paddle.h&&ball.x>=paddle.x&&ball.x<=paddle.x+paddle.w){ball.vy=-Math.abs(ball.vy);ball.vx=((ball.x-(paddle.x+paddle.w/2))/(paddle.w/2))*4.5;}
+        for(const b of bricks){if(b.alive&&ball.x+ball.r>b.x&&ball.x-ball.r<b.x+b.w&&ball.y+ball.r>b.y&&ball.y-ball.r<b.y+b.h){b.alive=false;ball.vy*=-1;score+=10;scoreText(score);break;}}
+        if(ball.y>370){lives--;if(lives<=0){over=true;hint.textContent="게임 종료! 점수 "+score+"점 · 다시 시작 버튼을 누르세요.";}else{launched=false;ball.vx=3;ball.vy=-4;}}
+        if(bricks.every(b=>!b.alive)){won=true;hint.textContent="클리어! 최종 점수 "+score+"점 · 다시 시작해서 한 번 더 도전하세요.";}
+      }
+      ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#c7cbe0";ctx.font="14px system-ui";ctx.fillText("남은 기회: "+lives,18,22);
+      if(!launched&&!over&&!won){ctx.fillStyle="#fff";ctx.textAlign="center";ctx.font="bold 18px system-ui";ctx.fillText("터치해서 시작",300,210);ctx.textAlign="left";}
+      if(over||won){ctx.fillStyle="#fff";ctx.textAlign="center";ctx.font="bold 24px system-ui";ctx.fillText(won?"CLEAR!":"GAME OVER",300,210);ctx.textAlign="left";}
+      raf=requestAnimationFrame(frame);
+    }raf=requestAnimationFrame(frame);
+    return ()=>{cancelAnimationFrame(raf);c.removeEventListener("pointermove",move);};
+  }
+
+  function startMerge() {
+    const hint=addHint("방향 버튼이나 키보드 화살표로 타일을 움직이세요. 같은 숫자가 만나면 합쳐집니다.");
+    const scoreText=addScore("점수","0");
+    let board,score=0,over=false,won=false;
+    const boardEl=document.createElement("div");boardEl.className="mergeboard";boardEl.setAttribute("role","group");boardEl.setAttribute("aria-label","숫자 퍼즐 보드");$("#playArea").append(boardEl);
+    const cells=[];
+    for(let i=0;i<16;i++){const el=document.createElement("div");el.className="tile";el.dataset.v="0";el.textContent="";el.setAttribute("aria-label","빈 칸");boardEl.append(el);cells.push(el);}
+    function spawn(){const empty=[];board.forEach((v,i)=>{if(!v)empty.push(i);});if(empty.length){const i=empty[Math.floor(Math.random()*empty.length)];board[i]=Math.random()<.9?2:4;}}
+    function draw(){board.forEach((v,i)=>{cells[i].dataset.v=String(v);cells[i].textContent=v||"";cells[i].setAttribute("aria-label",v?String(v):"빈 칸");});scoreText(score);}
+    function reset(){board=Array(16).fill(0);score=0;over=false;won=false;spawn();spawn();draw();hint.textContent="방향 버튼이나 키보드 화살표로 타일을 움직이세요. 같은 숫자가 만나면 합쳐집니다.";}
+    function slide(line){const vals=line.map(i=>board[i]).filter(Boolean);let gained=0;for(let i=0;i<vals.length-1;i++){if(vals[i]===vals[i+1]){vals[i]*=2;gained+=vals[i];vals.splice(i+1,1);}}while(vals.length<4)vals.push(0);return {vals,gained};}
+    function move(dir){if(over)return;const before=board.join(",");let gained=0;
+      for(let n=0;n<4;n++){let inds=[];for(let k=0;k<4;k++){if(dir==="left")inds.push(n*4+k);if(dir==="right")inds.push(n*4+(3-k));if(dir==="up")inds.push(k*4+n);if(dir==="down")inds.push((3-k)*4+n);}const out=slide(inds);gained+=out.gained;inds.forEach((idx,j)=>board[idx]=out.vals[j]);}
+      if(before===board.join(","))return;score+=gained;spawn();draw();
+      if(board.some(v=>v>=2048)&&!won){won=true;hint.textContent="2048 달성! 계속 플레이할 수 있어요.";}
+      const moves=["left","right","up","down"].some(d=>{for(let n=0;n<4;n++){const inds=[];for(let k=0;k<4;k++){if(d==="left")inds.push(n*4+k);if(d==="right")inds.push(n*4+(3-k));if(d==="up")inds.push(k*4+n);if(d==="down")inds.push((3-k)*4+n);}const vals=inds.map(i=>board[i]);if(vals.some(v=>!v))return true;for(let j=0;j<3;j++)if(vals[j]===vals[j+1])return true;}return false;});
+      if(!moves){over=true;hint.textContent="게임 종료! 최종 점수 "+score+"점 · 다시 시작을 눌러 재도전하세요.";}
+    }
+    const key=e=>{const map={ArrowLeft:"left",ArrowRight:"right",ArrowUp:"up",ArrowDown:"down"};if(map[e.key]){e.preventDefault();move(map[e.key]);}};
+    window.addEventListener("keydown",key);
+    addButtonRow([{text:"↑",label:"위로",click:()=>move("up")},{text:"←",label:"왼쪽",click:()=>move("left")},{text:"↓",label:"아래로",click:()=>move("down")},{text:"→",label:"오른쪽",click:()=>move("right")}]);
+    let touchX=0,touchY=0;
+    boardEl.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].clientX;touchY=e.changedTouches[0].clientY;},{passive:true});
+    boardEl.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-touchX,dy=e.changedTouches[0].clientY-touchY;if(Math.max(Math.abs(dx),Math.abs(dy))<25)return;move(Math.abs(dx)>Math.abs(dy)?(dx>0?"right":"left"):(dy>0?"down":"up"));},{passive:true});
+    reset();
+    return ()=>window.removeEventListener("keydown",key);
+  }
+
+  function startReaction() {
+    const bestKey="playlab_reaction_best";
+    let best=Number(localStorage.getItem(bestKey)||0),timer=0,startAt=0,started=false,ready=false,done=false,disposed=false;
+    const bestText=addScore("최고 기록",best?best+" ms":"아직 없음");
+    const resultText=addScore("반응 시간","—");
+    const box=document.createElement("button");box.type="button";box.className="reactbox";box.textContent="눌러서 시작";box.setAttribute("aria-label","반응 속도 테스트 시작");$("#playArea").append(box);
+    const hint=addHint("시작한 뒤 기다렸다가 화면이 초록색으로 바뀌면 최대한 빨리 눌러 보세요.");
+    function clearTimer(){if(timer)clearTimeout(timer);timer=0;}
+    function reset(){clearTimer();started=false;ready=false;done=false;box.className="reactbox";box.textContent="눌러서 시작";resultText("—");}
+    function click(){if(done){reset();return;}if(!started){started=true;ready=false;box.className="reactbox waiting";box.textContent="초록색이 될 때까지 기다리세요…";timer=setTimeout(()=>{if(disposed)return;ready=true;startAt=performance.now();box.className="reactbox ready";box.textContent="지금 터치!";},1200+Math.random()*2600);return;}
+      if(started&&!ready){clearTimer();started=false;box.className="reactbox toosoon";box.textContent="너무 빨라요! 다시 눌러 시작";hint.textContent="초록색으로 바뀌기 전에 눌렀어요. 다시 도전해 보세요.";return;}
+      if(ready){const ms=Math.round(performance.now()-startAt);ready=false;started=false;done=true;resultText(ms+" ms");if(!best||ms<best){best=ms;try{localStorage.setItem(bestKey,String(best));}catch(e){}bestText(best+" ms");}box.className="reactbox";box.textContent=ms+" ms · 다시 하려면 터치";hint.textContent=ms<220?"엄청 빨라요! 다시 도전해 기록을 확인해 보세요.":"좋아요! 반복해서 더 빠른 기록에 도전해 보세요.";}
+    }
+    box.addEventListener("click",click);
+    return ()=>{disposed=true;clearTimer();box.removeEventListener("click",click);};
+  }
+
+  filterGames();
+})();
 </script>
 </body>
 </html>
