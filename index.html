@@ -13,16 +13,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#171914">
-<meta name="description" content="PlayLab에서 설치 없이 즐기는 무료 미니게임. 아케이드, 퍼즐, 순발력 게임에 도전하고 나만의 최고 기록을 저장해 보세요.">
+<meta name="description" content="PlayLab(플레이랩)에서 설치 없이 바로 즐기는 무료 웹게임! 벽돌 깨기, 숫자 퍼즐, 반응 속도 테스트 등 잠깐 즐기기 좋은 간단한 게임을 모바일과 PC에서 플레이하세요.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PlayLab">
-<meta property="og:title" content="PlayLab — 무료 브라우저 미니게임">
-<meta property="og:description" content="설치 없이 바로 플레이하는 미니게임. 최고 기록을 만들고 새로운 게임에 도전해 보세요.">
+<meta property="og:title" content="PlayLab 플레이랩 | 무료 웹게임 · 잠깐 즐기는 간단한 게임">
+<meta property="og:description" content="벽돌 깨기, 숫자 퍼즐, 반응 속도 게임까지. 설치 없이 모바일과 PC에서 바로 즐기는 무료 웹게임 PlayLab.">
 <meta property="og:url" content="https://gamegame-pi.vercel.app/">
 <meta name="twitter:card" content="summary">
 <link rel="canonical" href="https://gamegame-pi.vercel.app/">
-<title>PlayLab — 잠깐의 재미</title>
+<title>PlayLab 플레이랩 | 무료 웹게임 · 잠깐 즐기는 간단한 게임</title>
 <style>
 :root{--bg:#171914;--panel:#20221b;--panel2:#282a22;--ink:#f4f3e9;--muted:#a5a795;--lime:#d5f477;--line:#383a30;--pink:#f4a6cb;--blue:#9cc8ff;--orange:#ffbd79}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid var(--lime);outline-offset:3px}a{color:inherit;text-decoration:none}.wrap{width:min(1120px,100% - 32px);margin:auto}.topbar{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.06em;font-size:22px}.brandmark{width:34px;height:34px;background:var(--lime);color:#1b1d15;border-radius:10px;display:grid;place-items:center;font-size:19px}.top-right{display:flex;align-items:center;gap:10px}.desktop-rank-btn{border:1px solid var(--line);border-radius:99px;padding:8px 12px;background:var(--lime);color:#202218;font-size:12px;font-weight:900;cursor:pointer}.pill{border:1px solid var(--line);border-radius:99px;padding:8px 12px;color:var(--muted);font-size:12px}.pill strong{color:var(--lime)}.hero{padding:30px 0 22px;display:grid;grid-template-columns:1.3fr .7fr;gap:18px}.hero-main{background:var(--lime);color:#202218;border-radius:22px;padding:clamp(22px,4vw,38px);min-height:250px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:900;opacity:.72}.hero h1{font-size:clamp(32px,5.2vw,56px);line-height:.98;letter-spacing:-.07em;margin:18px 0 12px;max-width:530px}.hero p{margin:0;max-width:390px;font-size:14px;opacity:.78}.hero-actions{display:flex;gap:9px;margin-top:22px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:12px 16px;font-weight:800;background:var(--ink);color:#202218}.btn.ghost{background:transparent;border:1px solid #737c4d;color:#202218}.hero-art{position:absolute;right:24px;bottom:24px;width:112px;height:112px;border:2px solid #202218;border-radius:28px;transform:rotate(-12deg);display:grid;place-items:center;font-size:60px;opacity:.95}.side-hero{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:250px}.side-head{display:flex;justify-content:space-between;align-items:center}.tiny{font-size:11px;color:var(--muted)}.side-hero h2{font-size:24px;letter-spacing:-.05em;margin:12px 0 5px}.side-hero p{font-size:13px;color:var(--muted);margin:0}.record-big{font-size:34px;font-weight:900;letter-spacing:-.06em;color:var(--lime)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:22px 0 14px}.section-head h2{margin:0;font-size:21px;letter-spacing:-.05em}.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.searchbox{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 12px;min-width:190px}.searchbox input{width:100%;min-width:0;background:transparent;color:var(--ink);border:0;outline:0;padding:12px 0}.filters{display:flex;gap:8px;overflow:auto;padding:2px 0 12px;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}.filter{white-space:nowrap;border:1px solid var(--line);background:transparent;color:var(--muted);padding:9px 14px;border-radius:99px;font-size:12px;font-weight:700}.filter.active{background:var(--lime);color:#202218;border-color:var(--lime)}.games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.game-card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:12px;min-width:0;transition:transform .15s,border-color .15s}.game-card:hover{transform:translateY(-2px);border-color:#62664e}.game-art{height:124px;border-radius:12px;display:grid;place-items:center;font-size:48px;position:relative;overflow:hidden}.art-lime{background:#d5f477;color:#202218}.art-pink{background:#f4a6cb;color:#37202b}.art-blue{background:#9cc8ff;color:#18283c}.art-orange{background:#ffbd79;color:#3a2819}.art-purple{background:#c2b0ff;color:#28203e}.art-white{background:#e7e7da;color:#28291f}.game-tag{position:absolute;top:9px;left:9px;border-radius:99px;background:#171914cc;color:white;padding:5px 8px;font-size:10px;font-weight:800}.fav{position:absolute;right:8px;top:8px;border:0;background:#171914cc;color:white;width:30px;height:30px;border-radius:50%;font-size:16px}.game-info{padding:12px 2px 2px}.game-title-row{display:flex;align-items:center;justify-content:space-between;gap:5px}.game-title{font-size:15px;font-weight:850;letter-spacing:-.04em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.best{font-size:11px;color:var(--lime);white-space:nowrap;font-weight:800}.game-desc{font-size:11px;color:var(--muted);margin:5px 0 12px;min-height:30px}.play-btn{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--ink);padding:10px;font-size:12px;font-weight:800}.play-btn:hover{background:var(--lime);color:#202218;border-color:var(--lime)}.ad-slot{margin:24px 0;border:1px dashed #494b3e;border-radius:14px;min-height:76px;display:flex;align-items:center;justify-content:center;text-align:center;color:#777b6b;font-size:11px;letter-spacing:.08em}.lower-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}.info-panel{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:20px}.info-panel h3{margin:0 0 12px;font-size:17px;letter-spacing:-.04em}.list-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.list-row:last-child{border-bottom:0}.list-row span:last-child{color:var(--lime);font-weight:800}.empty{padding:35px 10px;text-align:center;color:var(--muted);grid-column:1/-1}.footer{border-top:1px solid var(--line);padding:26px 0 92px;color:var(--muted);font-size:11px}.footer-row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer a{text-decoration:underline;text-underline-offset:3px}.bottom-nav{display:none}
@@ -98,13 +98,13 @@ body.profile-mode #detailPage{display:none}
 <main class="wrap" id="mainContent">
   <section class="hero">
     <div class="hero-main">
-      <div><div class="eyebrow">A LITTLE BREAK, A GOOD GAME</div><h1>잠깐의 틈을<br>재미로 채우자.</h1><p>설치 없이 바로 플레이. 오늘의 기록을 남기고 다음 도전에 도전해 봐.</p><div class="hero-actions"><button class="btn" onclick="scrollToGames()">게임 둘러보기 ↘</button><button class="btn ghost" onclick="openRecords()">내 기록 보기</button></div></div>
+      <div><div class="eyebrow">A LITTLE BREAK, A GOOD GAME</div><h1>무료 웹게임,<br>잠깐 즐기는 재미.</h1><p>설치 없이 바로 플레이하는 간단한 게임. 벽돌도 깨고, 퍼즐도 풀고, 최고 기록에 도전해 봐.</p><div class="hero-actions"><button class="btn" onclick="scrollToGames()">게임 둘러보기 ↘</button><button class="btn ghost" onclick="openRecords()">내 기록 보기</button></div></div>
       <div class="hero-art" aria-hidden="true">✳</div>
     </div>
     <aside class="side-hero"><div class="side-head"><span class="eyebrow">YOUR PLAY STATS</span><span>↗</span></div><div><div class="tiny">저장된 최고 기록</div><div class="record-big" id="totalBest">0 <span style="font-size:13px;color:var(--muted);letter-spacing:0">PTS</span></div><h2>기록은 쌓이고,<br>실력은 올라가고.</h2><p id="statCaption">첫 기록을 만들어 볼까요?</p></div></aside>
   </section>
   <section id="gamesSection">
-    <div class="section-head"><div><h2>지금 플레이하기 <span style="color:var(--lime)">↘</span></h2><p>가볍게 시작해서 기록을 갱신해 봐.</p></div><label class="searchbox"><span>⌕</span><input id="searchInput" type="search" placeholder="게임 이름 검색" aria-label="게임 검색" oninput="renderGames()"></label></div>
+    <div class="section-head"><div><h2>무료 웹게임 바로 하기 <span style="color:var(--lime)">↘</span></h2><p>벽돌 깨기부터 숫자 퍼즐까지, 잠깐 즐기기 좋은 간단한 게임을 골라 봐.</p></div><label class="searchbox"><span>⌕</span><input id="searchInput" type="search" placeholder="벽돌 깨기, 숫자 퍼즐 등 검색" aria-label="게임 이름이나 종류 검색" oninput="renderGames()"></label></div>
     <div class="filters" id="filters"><button class="filter active" data-filter="all">전체</button><button class="filter" data-filter="arcade">아케이드</button><button class="filter" data-filter="puzzle">퍼즐</button><button class="filter" data-filter="skill">순발력</button><button class="filter" data-filter="favorite">즐겨찾기</button></div>
     <div class="games" id="gamesGrid"></div>
   </section>
@@ -118,8 +118,8 @@ body.profile-mode #detailPage{display:none}
 <section class="wrap profile-page" id="profilePage" hidden></section>
 <section class="wrap rank-page" id="rankingPage" hidden></section>
 <section class="info-panel" style="margin:0 0 26px" id="aboutGames">
-<h3>PlayLab 미니게임 모음</h3>
-<p style="font-size:13px;color:var(--muted);line-height:1.85;margin:0 0 14px">PlayLab은 브라우저에서 바로 즐길 수 있는 가벼운 무료 미니게임 포털입니다. 별도의 설치 없이 아케이드 게임, 퍼즐 게임, 순발력 테스트를 플레이할 수 있습니다. 각 게임은 짧은 시간에도 쉽게 시작할 수 있도록 설계되어 있으며, 최고 기록과 즐겨찾기는 현재 사용 중인 브라우저에 저장됩니다.</p>
+<h3>PlayLab 플레이랩 — 무료 웹게임과 간단한 미니게임</h3>
+<p style="font-size:13px;color:var(--muted);line-height:1.85;margin:0 0 14px">PlayLab(플레이랩)은 설치 없이 브라우저에서 바로 즐기는 무료 웹게임 사이트입니다. 벽돌 깨기 게임, 숫자 합치기 퍼즐, 그림 짝 맞추기, 반응 속도 테스트, 빠르게 누르기 게임 등 짧은 시간에 즐길 수 있는 간단한 게임을 제공합니다. 모바일과 PC에서 게임을 골라 플레이하고 나만의 최고 기록에 도전해 보세요. 일부 기록과 즐겨찾기는 현재 사용 중인 브라우저에 저장됩니다.</p>
 <div style="display:flex;flex-wrap:wrap;gap:8px">
 <a class="filter" href="#gamesSection" onclick="setFilter('arcade')">아케이드 게임</a>
 <a class="filter" href="#gamesSection" onclick="setFilter('puzzle')">퍼즐 게임</a>
@@ -156,20 +156,20 @@ async function syncOnlineProfile(name){
 async function submitOnlineScore(gameId,score,lowerBetter=false){if(!onlineReady||!supabaseClient||!onlineUser)return;try{if(state.profileName)await syncOnlineProfile(state.profileName);const {error}=await supabaseClient.rpc("submit_best_score",{p_game_id:gameId,p_score:Math.max(0,Math.floor(Number(score)||0)),p_lower_better:!!lowerBetter});if(error)throw error;if(!document.getElementById("rankingPage").hidden)renderRanking();}catch(e){console.warn("온라인 점수 제출 실패:",e.message)}}
 initOnlineRanking();
 const games=[
-{id:'star',title:'스타 대시',desc:'장애물을 넘고 더 멀리 달려 봐.',category:'arcade',tag:'ENDLESS',icon:'✦',art:'art-lime',bestLabel:'최고 거리',kind:'runner'},
-{id:'blocks',title:'브릭 브레이커',desc:'공을 튕겨 블록을 전부 부숴 봐.',category:'arcade',tag:'CLASSIC',icon:'▦',art:'art-orange',bestLabel:'최고 점수',kind:'breaker'},
-{id:'merge',title:'넘버 머지',desc:'같은 숫자를 합쳐 더 큰 숫자를 만들자.',category:'puzzle',tag:'PUZZLE',icon:'2048',art:'art-blue',bestLabel:'최고 점수',kind:'merge'},
-{id:'reaction',title:'반응 속도',desc:'초록색이 되면 최대한 빠르게 눌러.',category:'skill',tag:'SPEED',icon:'⚡',art:'art-pink',bestLabel:'최고 기록',kind:'reaction'},
-{id:'memory',title:'짝 찾기',desc:'카드를 뒤집어 같은 그림을 찾아 봐.',category:'puzzle',tag:'MEMORY',icon:'◈',art:'art-purple',bestLabel:'최소 시도',kind:'memory'},
-{id:'tap',title:'탭 러시',desc:'10초 동안 가능한 한 많이 탭하기.',category:'skill',tag:'10 SEC',icon:'●',art:'art-white',bestLabel:'최고 탭 수',kind:'tap'},
-{id:'target',title:'타깃 팝',desc:'움직이는 표적을 빠르게 맞혀 봐.',category:'arcade',tag:'AIM',icon:'◎',art:'art-orange',bestLabel:'최고 점수',kind:'target'},
-{id:'math',title:'퀵 매스',desc:'시간 안에 계산 문제를 풀어 봐.',category:'puzzle',tag:'BRAIN',icon:'＋',art:'art-lime',bestLabel:'최고 점수',kind:'math'},
-{id:'color-pick',title:'컬러 픽',desc:'글자가 아니라 표시된 색상을 골라 봐.',category:'skill',tag:'COLOR',icon:'◉',art:'art-purple',bestLabel:'최고 점수',kind:'color'},
-{id:'sequence',title:'시퀀스 기억력',desc:'불이 켜진 순서를 그대로 따라 눌러 봐.',category:'puzzle',tag:'MEMORY',icon:'▦',art:'art-blue',bestLabel:'최고 단계',kind:'sequence'},
-{id:'word-scramble',title:'워드 스크램블',desc:'뒤섞인 글자를 보고 단어를 맞혀 봐.',category:'puzzle',tag:'WORDS',icon:'Aa',art:'art-pink',bestLabel:'최고 점수',kind:'word'},
-{id:'coin-catch',title:'코인 캐처',desc:'10초 동안 화면에 나타나는 코인을 잡아.',category:'arcade',tag:'CATCH',icon:'◉',art:'art-orange',bestLabel:'최고 코인',kind:'coin'},
-{id:'higher-card',title:'하이 로우',desc:'다음 숫자가 더 클지 작을지 예측해 봐.',category:'puzzle',tag:'GUESS',icon:'↑↓',art:'art-white',bestLabel:'최고 연속',kind:'higher'},
-{id:'lane-dodge',title:'레인 닷지',desc:'세 개 레인을 오가며 장애물을 피해.',category:'arcade',tag:'DODGE',icon:'⇆',art:'art-lime',bestLabel:'최고 점수',kind:'dodge'}
+{id:'star',title:'장애물 피하기 달리기',desc:'점프해서 장애물을 피하고 더 멀리 달려 봐.',category:'arcade',tag:'ENDLESS',icon:'✦',art:'art-lime',bestLabel:'최고 거리',kind:'runner'},
+{id:'blocks',title:'벽돌 깨기',desc:'패들을 움직여 공을 튕기고 벽돌을 전부 부숴 봐.',category:'arcade',tag:'CLASSIC',icon:'▦',art:'art-orange',bestLabel:'최고 점수',kind:'breaker'},
+{id:'merge',title:'숫자 합치기 퍼즐',desc:'같은 숫자 타일을 합쳐 더 큰 숫자를 만들어 봐.',category:'puzzle',tag:'PUZZLE',icon:'2048',art:'art-blue',bestLabel:'최고 점수',kind:'merge'},
+{id:'reaction',title:'반응 속도 테스트',desc:'화면이 초록색으로 바뀌는 순간 최대한 빨리 눌러 봐.',category:'skill',tag:'SPEED',icon:'⚡',art:'art-pink',bestLabel:'최고 기록',kind:'reaction'},
+{id:'memory',title:'그림 짝 맞추기',desc:'카드를 뒤집어 같은 그림 두 장을 찾아 봐.',category:'puzzle',tag:'MEMORY',icon:'◈',art:'art-purple',bestLabel:'최소 시도',kind:'memory'},
+{id:'tap',title:'10초 빨리 누르기',desc:'10초 동안 화면을 최대한 많이 눌러 기록을 세워 봐.',category:'skill',tag:'10 SEC',icon:'●',art:'art-white',bestLabel:'최고 탭 수',kind:'tap'},
+{id:'target',title:'표적 맞히기 게임',desc:'움직이는 표적을 빠르게 눌러 점수를 얻어 봐.',category:'arcade',tag:'AIM',icon:'◎',art:'art-orange',bestLabel:'최고 점수',kind:'target'},
+{id:'math',title:'빠른 덧셈 게임',desc:'제한 시간 안에 덧셈 문제를 최대한 많이 풀어 봐.',category:'puzzle',tag:'BRAIN',icon:'＋',art:'art-lime',bestLabel:'최고 점수',kind:'math'},
+{id:'color-pick',title:'색깔 맞히기 게임',desc:'글자에 적힌 이름 말고 실제로 표시된 색을 골라 봐.',category:'skill',tag:'COLOR',icon:'◉',art:'art-purple',bestLabel:'최고 점수',kind:'color'},
+{id:'sequence',title:'순서 기억하기 게임',desc:'불이 켜지는 순서를 기억하고 그대로 따라 눌러 봐.',category:'puzzle',tag:'MEMORY',icon:'▦',art:'art-blue',bestLabel:'최고 단계',kind:'sequence'},
+{id:'word-scramble',title:'영어 단어 맞히기',desc:'뒤섞인 영문자를 보고 원래 단어를 맞혀 봐.',category:'puzzle',tag:'WORDS',icon:'Aa',art:'art-pink',bestLabel:'최고 점수',kind:'word'},
+{id:'coin-catch',title:'코인 잡기 게임',desc:'10초 동안 화면에 나타나는 코인을 빠르게 잡아 봐.',category:'arcade',tag:'CATCH',icon:'◉',art:'art-orange',bestLabel:'최고 코인',kind:'coin'},
+{id:'higher-card',title:'숫자 높낮이 맞히기',desc:'다음 숫자가 더 클지 작을지 예측해 연속 정답에 도전해 봐.',category:'puzzle',tag:'GUESS',icon:'↑↓',art:'art-white',bestLabel:'최고 연속',kind:'higher'},
+{id:'lane-dodge',title:'장애물 피하기 게임',desc:'세 개 레인을 오가며 다가오는 장애물을 피해 봐.',category:'arcade',tag:'DODGE',icon:'⇆',art:'art-lime',bestLabel:'최고 점수',kind:'dodge'}
 ];
 const STORE='playlab_v3';
 let state=loadState(),activeFilter='all',currentGame=null,cleanupGame=null;
@@ -201,16 +201,16 @@ function gameTap(){stage('<div class="big-number" id="tapCount">0</div><p id="ta
 function gameTarget(){stage('<div class="scoreline"><span>점수 <strong id="targetScore">0</strong></span><span id="targetTime">15초</span></div><div id="targetBoard" style="position:relative;width:min(420px,100%);height:230px;background:#22251c;border-radius:12px;overflow:hidden"><button id="targetDot" style="position:absolute;left:45%;top:42%;width:48px;height:48px;border:0;border-radius:50%;background:#d5f477;color:#202218;font-size:25px">◎</button></div><p>표적을 눌러 점수를 얻어. 15초 동안 도전!</p>');controls('<button class="control-btn primary" onclick="gameTarget()">다시 시작</button>');let score=0,time=15;const dot=document.getElementById('targetDot'),board=document.getElementById('targetBoard'),scoreEl=document.getElementById('targetScore'),timeEl=document.getElementById('targetTime');function move(){dot.style.left=Math.random()*(board.clientWidth-48)+'px';dot.style.top=Math.random()*(board.clientHeight-48)+'px'}dot.onclick=()=>{score++;scoreEl.textContent=score;move()};const iv=setInterval(()=>{time--;timeEl.textContent=time+'초';if(time<=0){clearInterval(iv);dot.disabled=true;recordScore('target',score);dot.textContent='✓'}},1000);cleanupGame=()=>clearInterval(iv)}
 function gameMath(){let score=0,time=20,a,b,ans;stage('<div class="scoreline"><span>점수 <strong id="mathScore">0</strong></span><span id="mathTime">20초</span></div><div class="big-number" id="mathQuestion">준비!</div><p>정답을 입력하고 확인해.</p><input id="mathAnswer" type="number" inputmode="numeric" placeholder="정답" style="background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px;width:150px;text-align:center"><button class="control-btn primary" id="mathSubmit">확인</button>');let live=true;const q=document.getElementById('mathQuestion'),input=document.getElementById('mathAnswer'),sc=document.getElementById('mathScore'),ti=document.getElementById('mathTime');function next(){a=1+Math.floor(Math.random()*12);b=1+Math.floor(Math.random()*12);ans=a+b;q.textContent=a+' + '+b+' = ?';input.value='';input.focus()}function submit(){if(!live)return;if(Number(input.value)===ans){score++;sc.textContent=score;next()}else{input.value='';input.placeholder='다시 생각해 봐'}}document.getElementById('mathSubmit').onclick=submit;input.onkeydown=e=>{if(e.key==='Enter')submit()};next();const iv=setInterval(()=>{time--;ti.textContent=time+'초';if(time<=0){live=false;clearInterval(iv);q.textContent='끝! '+score+'점';recordScore('math',score)}},1000);cleanupGame=()=>clearInterval(iv)}
 
-window.addEventListener('popstate',()=>{const id=new URLSearchParams(location.search).get('game');if(id&&games.some(g=>g.id===id))openDetail(id);else{document.body.classList.remove('detail-mode');document.getElementById('detailPage').hidden=true;document.title='PlayLab — 잠깐의 재미';}});
+window.addEventListener('popstate',()=>{const id=new URLSearchParams(location.search).get('game');if(id&&games.some(g=>g.id===id))openDetail(id);else{document.body.classList.remove('detail-mode');document.getElementById('detailPage').hidden=true;document.title='PlayLab 플레이랩 | 무료 웹게임 · 잠깐 즐기는 간단한 게임';}});
 function openDetail(id){
  const g=games.find(x=>x.id===id);if(!g)return;
  document.body.classList.add('detail-mode');
  const page=document.getElementById('detailPage');page.hidden=false;
  const descriptions={
  star:['장애물을 점프로 피하면서 최대한 멀리 달리는 러너 게임입니다.','화면이나 점프 버튼을 눌러 장애물을 피하세요.'],
- blocks:['공을 튕겨 블록을 깨는 클래식 아케이드 게임입니다.','패들을 좌우로 움직여 공을 받아내세요.'],
- merge:['같은 숫자 타일을 합쳐 더 큰 숫자를 만드는 퍼즐입니다.','방향 버튼이나 키보드 방향키로 타일을 이동하세요.'],
- reaction:['화면이 초록색으로 바뀌는 순간을 기다리는 반응 속도 테스트입니다.','시작 후 초록색이 되면 가능한 한 빨리 누르세요.'],
+ blocks:['패들을 움직여 공을 튕기고 벽돌을 하나씩 깨는 무료 벽돌 깨기 게임입니다.','패들을 좌우로 움직여 공을 받아내고 모든 벽돌을 부수세요.'],
+ merge:['같은 숫자 타일을 합쳐 더 큰 숫자를 만드는 무료 숫자 합치기 퍼즐입니다.','방향 버튼이나 키보드 방향키로 타일을 움직여 숫자를 합치세요.'],
+ reaction:['화면이 초록색으로 바뀌는 순간을 기다렸다가 누르는 반응 속도 테스트 게임입니다.','시작 후 초록색이 되면 가능한 한 빨리 누르고 기록을 확인하세요.'],
  memory:['뒤집은 카드의 그림을 기억해 같은 짝을 찾는 게임입니다.','카드 두 장씩 열어 모든 짝을 찾아보세요.'],
  tap:['짧은 시간 동안 얼마나 빠르게 탭할 수 있는지 겨루는 게임입니다.','시작 버튼을 누른 뒤 10초 동안 계속 탭하세요.'],
  target:['화면에서 위치가 바뀌는 표적을 맞히는 조준 게임입니다.','표적을 눌러 15초 안에 점수를 쌓으세요.'],
@@ -228,8 +228,8 @@ function openDetail(id){
  <div class="detail-copy"><div class="eyebrow">${g.tag} · PLAYLAB ORIGINAL</div><h1>${g.title}</h1><p>${d[0]}</p><div class="detail-meta"><span class="detail-chip">${g.category==='arcade'?'아케이드':g.category==='puzzle'?'퍼즐':'순발력'}</span><span class="detail-chip">브라우저에서 바로 실행</span><span class="detail-chip">${g.bestLabel}: ${state.best[g.id]===undefined?'아직 없음':Number(state.best[g.id]).toLocaleString()}</span></div><p>${g.desc}</p><div class="detail-actions"><button class="play-btn" onclick="launchGame('${g.id}')">▶ 지금 플레이</button><button class="control-btn" onclick="toggleFav('${g.id}',event);openDetail('${g.id}')">${state.favorites.includes(g.id)?'♥ 즐겨찾기 저장됨':'♡ 즐겨찾기'}</button></div></div></div>
  <div class="detail-sections"><div class="info-panel"><h3>플레이 방법</h3><p style="font-size:13px;color:var(--muted);line-height:1.8;margin:0">${d[1]}</p></div><div class="info-panel"><h3>게임 기록</h3><div class="list-row"><span>내 최고 기록</span><span>${state.best[g.id]===undefined?'—':Number(state.best[g.id]).toLocaleString()}</span></div><div class="list-row"><span>플레이 횟수</span><span>${state.plays[g.id]||0}회</span></div></div></div>
  <div class="section-head"><div><h2>다른 게임도 해보기</h2><p>다른 방식의 미니게임을 골라 보세요.</p></div></div><div class="games">${games.filter(x=>x.id!==g.id&&x.category===g.category).slice(0,4).map(x=>`<article class="game-card"><div class="game-art ${x.art}">${x.icon}</div><div class="game-info"><div class="game-title">${x.title}</div><div class="game-desc">${x.desc}</div><a class="detail-link" href="?game=${x.id}">상세 보기 ↗</a></div></article>`).join('')}</div>`;
- document.title=`${g.title} — PlayLab 무료 미니게임`;
- const descMeta=document.querySelector('meta[name="description"]');if(descMeta)descMeta.content=`${g.title}: ${d[0]} ${d[1]} PlayLab에서 설치 없이 바로 플레이하세요.`;
+ document.title=`${g.title} | PlayLab 플레이랩 무료 웹게임`;
+ const descMeta=document.querySelector('meta[name="description"]');if(descMeta)descMeta.content=`${g.title} 무료 웹게임. ${d[0]} ${d[1]} 설치 없이 PlayLab(플레이랩)에서 모바일과 PC로 바로 즐겨 보세요.`;
  let canonical=document.querySelector('link[rel="canonical"]');if(canonical)canonical.href=location.origin+location.pathname+'?game='+encodeURIComponent(g.id);
 }
 function gameColor(){
