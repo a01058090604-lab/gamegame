@@ -1,37 +1,1012 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>코인 캐치 무료 게임 | PlayLab 플레이랩</title>
-<meta name="description" content="화면에 떨어지는 코인을 모으며 점수를 얻는 무료 캐주얼 게임입니다. 설치 없이 브라우저에서 바로 즐겨보세요.">
-<meta name="robots" content="index,follow">
-<link rel="canonical" href="https://gamegame-pi.vercel.app/games/coin-catch.html">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="PlayLab 플레이랩">
-<meta property="og:title" content="코인 캐치 무료 게임 | PlayLab">
-<meta property="og:description" content="화면에 떨어지는 코인을 모으며 점수를 얻는 무료 캐주얼 게임입니다.">
-<meta property="og:url" content="https://gamegame-pi.vercel.app/games/coin-catch.html">
-<meta property="og:image" content="https://gamegame-pi.vercel.app/favicon.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="코인 캐치 무료 게임 | PlayLab">
-<meta name="twitter:description" content="화면에 떨어지는 코인을 모으며 점수를 얻는 무료 캐주얼 게임입니다.">
-<link rel="icon" href="/favicon.png">
-<style>
-:root{--bg:#080b0a;--panel:#111714;--line:#28352d;--lime:#b8ff4a;--muted:#b4c0b6}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f8f4;font:16px/1.75 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:850px;margin:auto;padding:26px 20px 60px}nav{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px}
-a{color:var(--lime)}.brand{font-weight:850;text-decoration:none;letter-spacing:.2px}.hero{padding:40px 0 24px}.eyebrow{color:var(--lime);font-size:.9rem;font-weight:700}h1{font-size:clamp(2rem,6vw,3.2rem);line-height:1.18;margin:8px 0 16px}h2{font-size:1.35rem;margin-top:28px}p,li{color:var(--muted)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.btn{display:inline-block;background:var(--lime);color:#10150c;text-decoration:none;font-weight:800;border-radius:12px;padding:12px 18px}.btn.secondary{background:var(--panel);color:#f4f8f4;border:1px solid var(--line)}footer{border-top:1px solid var(--line);margin-top:38px;padding-top:18px;color:var(--muted);font-size:.9rem}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>코인 캐치 🪙 무료 게임 | PlayLab</title>
+  <meta name="description" content="떨어지는 코인을 모으고 폭탄을 피하는 무료 코인 캐치 게임! 설치 없이 브라우저에서 바로 플레이하세요.">
+  <meta name="keywords" content="코인 캐치, 무료 게임, 웹게임, 캐주얼 게임, PlayLab">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#080b0a">
+
+  <link rel="canonical" href="https://gamegame-pi.vercel.app/games/coin-catch.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="코인 캐치 🪙 무료 게임 | PlayLab">
+  <meta property="og:description" content="코인을 모으고 폭탄을 피하세요! 지금 바로 플레이할 수 있는 무료 웹게임.">
+  <meta property="og:url" content="https://gamegame-pi.vercel.app/games/coin-catch.html">
+  <meta name="twitter:card" content="summary">
+
+  <style>
+    :root {
+      --bg: #080b0a;
+      --panel: #111714;
+      --panel2: #171f19;
+      --line: #28352d;
+      --lime: #d5f477;
+      --lime-soft: rgba(213,244,119,.12);
+      --muted: #aab7ad;
+      --white: #f4f8f4;
+      --red: #ff7777;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top, rgba(213,244,119,.08), transparent 45%),
+        var(--bg);
+      color: var(--white);
+      font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      line-height: 1.6;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      width: min(100% - 32px, 760px);
+      margin: 0 auto;
+    }
+
+    header {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .brandmark {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--lime);
+      color: #10150b;
+      font-size: 20px;
+    }
+
+    .brand span:last-child span {
+      color: var(--lime);
+    }
+
+    .home-link {
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .home-link:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    .hero {
+      padding: 38px 0 25px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border: 1px solid rgba(213,244,119,.25);
+      border-radius: 100px;
+      background: var(--lime-soft);
+      color: var(--lime);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 17px 0 10px;
+      font-size: clamp(32px, 7vw, 47px);
+      line-height: 1.2;
+      letter-spacing: -2px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .game-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 25px;
+      background: linear-gradient(150deg, #141c16, #0e130f);
+      box-shadow: 0 20px 70px rgba(0,0,0,.2);
+    }
+
+    .game-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .game-top h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 100px;
+      background: var(--lime-soft);
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-bottom: 13px;
+    }
+
+    .stat {
+      padding: 10px 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(0,0,0,.17);
+      text-align: center;
+    }
+
+    .stat-label {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .stat-value {
+      display: block;
+      margin-top: 2px;
+      font-size: 21px;
+      font-weight: 900;
+      color: var(--lime);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .arena {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      border: 1px solid #35452e;
+      border-radius: 19px;
+      background: #0b100d;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 360 / 480;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      background: rgba(8,11,10,.86);
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .overlay.hidden {
+      display: none;
+    }
+
+    .overlay-emoji {
+      margin-bottom: 7px;
+      font-size: 51px;
+    }
+
+    .overlay h3 {
+      margin: 0 0 7px;
+      font-size: 25px;
+      letter-spacing: -1px;
+    }
+
+    .overlay p {
+      max-width: 260px;
+      margin: 0 0 19px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .primary-btn {
+      padding: 12px 24px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--lime);
+      color: #10150b;
+      font-weight: 900;
+      transition: transform .15s, filter .15s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .game-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .move-btn {
+      width: 90px;
+      height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel2);
+      color: var(--white);
+      font-size: 21px;
+      font-weight: 800;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+    }
+
+    .move-btn:active {
+      border-color: var(--lime);
+      background: var(--lime-soft);
+      color: var(--lime);
+    }
+
+    .game-note {
+      margin: 13px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .content-section {
+      margin-top: 25px;
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: 21px;
+      background: var(--panel);
+    }
+
+    .content-section h2 {
+      margin: 0 0 13px;
+      font-size: 19px;
+      letter-spacing: -.5px;
+    }
+
+    .content-section p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-icon {
+      flex: 0 0 38px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--lime-soft);
+      font-size: 18px;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .step p {
+      font-size: 13px;
+    }
+
+    .tip {
+      padding: 15px;
+      border: 1px solid rgba(213,244,119,.2);
+      border-radius: 15px;
+      background: var(--lime-soft);
+    }
+
+    .tip strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--lime);
+      font-size: 14px;
+    }
+
+    .tip p {
+      font-size: 13px;
+    }
+
+    .bottom-cta {
+      margin: 25px 0 35px;
+      padding: 25px 20px;
+      border: 1px solid rgba(213,244,119,.2);
+      border-radius: 23px;
+      background: linear-gradient(135deg, rgba(213,244,119,.11), rgba(213,244,119,.025));
+      text-align: center;
+    }
+
+    .bottom-cta h2 {
+      margin: 0 0 7px;
+      font-size: 23px;
+    }
+
+    .bottom-cta p {
+      margin: 0 0 17px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .bottom-cta a {
+      display: inline-block;
+      padding: 11px 19px;
+      border: 1px solid rgba(213,244,119,.25);
+      border-radius: 12px;
+      color: var(--lime);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    footer {
+      padding: 22px 0 30px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      color: #7f8c82;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .wrap {
+        width: min(100% - 22px, 760px);
+      }
+
+      header {
+        height: 66px;
+      }
+
+      .hero {
+        padding-top: 29px;
+      }
+
+      .game-card {
+        padding: 12px;
+        border-radius: 20px;
+      }
+
+      .content-section {
+        padding: 18px;
+      }
+
+      .stat-value {
+        font-size: 19px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
-<body><main>
-<nav><a class="brand" href="/">PlayLab 플레이랩</a><a href="/">전체 게임 보기</a></nav>
-<header class="hero"><div class="eyebrow">무료 웹게임 · 설치 불필요</div><h1>코인 캐치</h1><p>코인이 나타나는 위치를 살피고 캐릭터나 조작 대상을 움직여 코인을 모으세요. 장애물이나 놓치는 코인에 주의하세요.</p>
-<div class="actions"><a class="btn" href="/?game=coin-catch">코인 캐치 플레이하기</a><a class="btn secondary" href="/">다른 무료 게임 보기</a></div></header>
-<section class="panel"><h2>게임 방법</h2><ol><li>게임을 시작하고 코인의 위치를 확인합니다.</li>
-<li>조작 대상을 움직여 코인을 획득합니다.</li>
-<li>가능한 많은 코인을 모아 기록을 높이세요.</li></ol></section>
-<section><h2>코인 캐치 소개</h2><p>화면에 떨어지는 코인을 모으며 점수를 얻는 무료 캐주얼 게임입니다. PlayLab은 별도의 프로그램 설치 없이 브라우저에서 즐길 수 있는 무료 웹게임을 모아 둔 사이트입니다. 잠깐 쉬는 시간에 가볍게 플레이하거나 자신의 기록을 갱신해 보세요.</p><h2>플레이 팁</h2><p>처음에는 조작과 규칙을 익히는 데 집중하고, 익숙해지면 정확도와 속도를 함께 높여 보세요. 짧게 여러 번 도전하면서 자신의 최고 기록을 만들어 가는 것도 좋습니다.</p></section>
-<div class="actions"><a class="btn" href="/?game=coin-catch">지금 무료로 시작</a><a class="btn secondary" href="/">PlayLab 홈으로</a></div>
-<footer>© PlayLab 플레이랩 · <a href="/">무료 웹게임 모음</a></footer>
-</main></body></html>
+
+<body>
+  <header class="wrap">
+    <a class="brand" href="/" aria-label="PlayLab 홈">
+      <span class="brandmark">▶</span>
+      <span>playlab<span>.</span></span>
+    </a>
+    <a class="home-link" href="/">← 게임 목록</a>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">🪙 FREE MINI GAME</span>
+      <h1>코인 캐치</h1>
+      <p>코인은 쏙쏙 모으고, 폭탄은 요리조리 피하세요!</p>
+    </section>
+
+    <section class="game-card" aria-label="코인 캐치 게임">
+      <div class="game-top">
+        <h2>🪙 Coin Catch</h2>
+        <span class="status" id="status">READY</span>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-label">점수</span>
+          <span class="stat-value" id="score">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">남은 목숨</span>
+          <span class="stat-value" id="lives">❤️❤️❤️</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">최고 점수</span>
+          <span class="stat-value" id="best">0</span>
+        </div>
+      </div>
+
+      <div class="arena">
+        <canvas id="game" width="360" height="480"
+          aria-label="코인을 받고 폭탄을 피하는 게임 화면"></canvas>
+
+        <div class="overlay" id="overlay">
+          <div class="overlay-emoji" id="overlayEmoji">🪙</div>
+          <h3 id="overlayTitle">코인을 모아봐!</h3>
+          <p id="overlayText">코인을 받으면 +10점! 폭탄에 맞으면 목숨이 줄어들어요.</p>
+          <button class="primary-btn" id="startBtn">게임 시작하기 →</button>
+        </div>
+      </div>
+
+      <div class="game-controls" aria-label="이동 버튼">
+        <button class="move-btn" id="leftBtn" aria-label="왼쪽 이동">←</button>
+        <button class="move-btn" id="rightBtn" aria-label="오른쪽 이동">→</button>
+      </div>
+
+      <p class="game-note">키보드 ← → 또는 A / D · 모바일은 버튼이나 화면을 터치하세요</p>
+    </section>
+
+    <section class="content-section">
+      <h2>🎮 게임 방법</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-icon">🪙</span>
+          <div>
+            <strong>코인을 받아요</strong>
+            <p>위에서 떨어지는 코인을 캐릭터로 받으면 10점을 얻어요.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-icon">💣</span>
+          <div>
+            <strong>폭탄을 피하세요</strong>
+            <p>폭탄에 닿으면 목숨이 하나 줄어들어요. 세 번 맞으면 게임 오버!</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-icon">⚡</span>
+          <div>
+            <strong>최고 점수에 도전해요</strong>
+            <p>시간이 지날수록 물체가 빠르게 떨어져요. 최대한 오래 버텨보세요.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>💡 고득점 팁</h2>
+      <div class="tip">
+        <strong>코인만 보고 움직이지 마세요!</strong>
+        <p>폭탄의 위치도 함께 확인하세요. 한쪽에만 머무르지 말고 다음에 떨어질 물체를 미리 살펴보면 더 오래 살아남을 수 있어요.</p>
+      </div>
+    </section>
+
+    <section class="bottom-cta">
+      <h2>다른 게임도 해볼까요?</h2>
+      <p>PlayLab에서 다양한 무료 미니게임을 만나보세요.</p>
+      <a href="/">다른 게임 둘러보기 →</a>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <a href="/">playlab.</a> · 무료로 즐기는 미니게임
+  </footer>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById("game");
+      const ctx = canvas.getContext("2d");
+
+      const scoreEl = document.getElementById("score");
+      const livesEl = document.getElementById("lives");
+      const bestEl = document.getElementById("best");
+      const statusEl = document.getElementById("status");
+      const overlay = document.getElementById("overlay");
+      const overlayEmoji = document.getElementById("overlayEmoji");
+      const overlayTitle = document.getElementById("overlayTitle");
+      const overlayText = document.getElementById("overlayText");
+      const startBtn = document.getElementById("startBtn");
+
+      const W = canvas.width;
+      const H = canvas.height;
+
+      let player;
+      let objects = [];
+      let particles = [];
+      let score = 0;
+      let lives = 3;
+      let best = 0;
+      let running = false;
+      let gameOver = false;
+      let lastTime = 0;
+      let spawnTimer = 0;
+      let elapsed = 0;
+      let leftPressed = false;
+      let rightPressed = false;
+      let animationId = 0;
+
+      try {
+        best = Number(localStorage.getItem("playlab_coin_catch_best")) || 0;
+      } catch (_) {
+        best = 0;
+      }
+
+      bestEl.textContent = best;
+
+      function resetGame() {
+        player = {
+          x: W / 2,
+          y: H - 43,
+          w: 48,
+          h: 28,
+          speed: 290
+        };
+
+        objects = [];
+        particles = [];
+        score = 0;
+        lives = 3;
+        elapsed = 0;
+        spawnTimer = 0;
+        lastTime = 0;
+        gameOver = false;
+
+        updateStats();
+        drawScene();
+      }
+
+      function updateStats() {
+        scoreEl.textContent = score;
+        livesEl.textContent = "❤️".repeat(lives) + "🖤".repeat(3 - lives);
+        bestEl.textContent = best;
+      }
+
+      function startGame() {
+        cancelAnimationFrame(animationId);
+        resetGame();
+        running = true;
+        overlay.classList.add("hidden");
+        statusEl.textContent = "PLAYING";
+        lastTime = performance.now();
+        animationId = requestAnimationFrame(loop);
+      }
+
+      function endGame() {
+        running = false;
+        gameOver = true;
+        statusEl.textContent = "GAME OVER";
+
+        if (score > best) {
+          best = score;
+          bestEl.textContent = best;
+          try {
+            localStorage.setItem("playlab_coin_catch_best", String(best));
+          } catch (_) {}
+        }
+
+        overlayEmoji.textContent = score >= 100 ? "🏆" : "💥";
+        overlayTitle.textContent = "게임 종료!";
+        overlayText.textContent = `최종 점수 ${score}점! 다시 도전해서 최고 점수를 갱신해 보세요.`;
+        startBtn.textContent = "다시 도전하기 ↻";
+        overlay.classList.remove("hidden");
+      }
+
+      function spawnObject() {
+        const isBomb = Math.random() < 0.27;
+        const radius = isBomb ? 15 : 13;
+
+        objects.push({
+          x: radius + Math.random() * (W - radius * 2),
+          y: -25,
+          r: radius,
+          type: isBomb ? "bomb" : "coin",
+          speed: 115 + Math.min(elapsed * 2.1, 150) + Math.random() * 45,
+          rotation: Math.random() * Math.PI * 2,
+          hit: false
+        });
+      }
+
+      function addParticles(x, y, color, count = 9) {
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 35 + Math.random() * 125;
+
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: .45 + Math.random() * .3,
+            maxLife: .75,
+            color,
+            size: 2 + Math.random() * 3
+          });
+        }
+      }
+
+      function roundedRect(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+      }
+
+      function drawBackground() {
+        ctx.fillStyle = "#0b100d";
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.strokeStyle = "rgba(213,244,119,.055)";
+        ctx.lineWidth = 1;
+
+        for (let x = 20; x < W; x += 30) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, H);
+          ctx.stroke();
+        }
+
+        for (let y = 20; y < H; y += 30) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(W, y);
+          ctx.stroke();
+        }
+
+        const glow = ctx.createRadialGradient(
+          W / 2, H - 20, 0,
+          W / 2, H - 20, 240
+        );
+        glow.addColorStop(0, "rgba(213,244,119,.075)");
+        glow.addColorStop(1, "rgba(213,244,119,0)");
+
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      function drawPlayer() {
+        const x = player.x;
+        const y = player.y;
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        ctx.shadowColor = "rgba(213,244,119,.25)";
+        ctx.shadowBlur = 17;
+
+        ctx.fillStyle = "#d5f477";
+        roundedRect(-player.w / 2, -player.h / 2, player.w, player.h, 10);
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#17210e";
+
+        roundedRect(-13, -5, 5, 7, 2);
+        ctx.fill();
+
+        roundedRect(8, -5, 5, 7, 2);
+        ctx.fill();
+
+        ctx.strokeStyle = "#17210e";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 2, 6, .2, Math.PI - .2);
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      function drawCoin(obj) {
+        ctx.save();
+        ctx.translate(obj.x, obj.y);
+        ctx.rotate(Math.sin(obj.rotation) * .15);
+
+        ctx.shadowColor = "#f7c948";
+        ctx.shadowBlur = 12;
+
+        ctx.fillStyle = "#f7c948";
+        ctx.beginPath();
+        ctx.arc(0, 0, obj.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = "#b87b18";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 0, obj.r - 3, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = "#8b5b10";
+        ctx.font = "bold 15px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("$", 0, 1);
+
+        ctx.restore();
+      }
+
+      function drawBomb(obj) {
+        ctx.save();
+        ctx.translate(obj.x, obj.y);
+
+        ctx.fillStyle = "#303832";
+        ctx.strokeStyle = "#718076";
+        ctx.lineWidth = 1.5;
+
+        ctx.beginPath();
+        ctx.arc(0, 2, obj.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.strokeStyle = "#d5b16a";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(4, -obj.r + 3);
+        ctx.quadraticCurveTo(9, -obj.r - 6, 13, -obj.r - 4);
+        ctx.stroke();
+
+        ctx.fillStyle = "#ff7777";
+        ctx.beginPath();
+        ctx.arc(14, -obj.r - 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#ff7777";
+        ctx.font = "bold 12px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("!", 0, 6);
+
+        ctx.restore();
+      }
+
+      function drawParticles() {
+        for (const p of particles) {
+          ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function drawScene() {
+        drawBackground();
+
+        for (const obj of objects) {
+          if (obj.type === "coin") drawCoin(obj);
+          else drawBomb(obj);
+        }
+
+        if (player) drawPlayer();
+        drawParticles();
+
+        if (!running && !gameOver) {
+          ctx.fillStyle = "rgba(213,244,119,.65)";
+          ctx.font = "12px Arial";
+          ctx.textAlign = "center";
+          ctx.fillText("READY TO CATCH?", W / 2, 35);
+        }
+      }
+
+      function update(dt) {
+        elapsed += dt;
+
+        if (leftPressed) player.x -= player.speed * dt;
+        if (rightPressed) player.x += player.speed * dt;
+
+        player.x = Math.max(
+          player.w / 2,
+          Math.min(W - player.w / 2, player.x)
+        );
+
+        spawnTimer += dt;
+        const spawnInterval = Math.max(.31, .76 - elapsed * .004);
+
+        if (spawnTimer >= spawnInterval) {
+          spawnTimer = 0;
+          spawnObject();
+        }
+
+        for (const obj of objects) {
+          obj.y += obj.speed * dt;
+          obj.rotation += dt * 3;
+
+          const playerLeft = player.x - player.w / 2;
+          const playerRight = player.x + player.w / 2;
+          const playerTop = player.y - player.h / 2;
+          const playerBottom = player.y + player.h / 2;
+
+          const closestX = Math.max(playerLeft, Math.min(obj.x, playerRight));
+          const closestY = Math.max(playerTop, Math.min(obj.y, playerBottom));
+          const dx = obj.x - closestX;
+          const dy = obj.y - closestY;
+
+          if (!obj.hit && dx * dx + dy * dy < obj.r * obj.r) {
+            obj.hit = true;
+
+            if (obj.type === "coin") {
+              score += 10;
+              addParticles(obj.x, obj.y, "#d5f477", 10);
+            } else {
+              lives -= 1;
+              addParticles(obj.x, obj.y, "#ff7777", 13);
+            }
+
+            updateStats();
+          }
+        }
+
+        objects = objects.filter(obj => !obj.hit && obj.y < H + 30);
+
+        for (const p of particles) {
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.vy += 100 * dt;
+          p.life -= dt;
+        }
+
+        particles = particles.filter(p => p.life > 0);
+
+        if (lives <= 0) {
+          endGame();
+        }
+      }
+
+      function loop(now) {
+        if (!running) return;
+
+        const dt = Math.min((now - lastTime) / 1000, .035);
+        lastTime = now;
+
+        update(dt);
+        drawScene();
+
+        if (running) {
+          animationId = requestAnimationFrame(loop);
+        }
+      }
+
+      function moveToPointer(event) {
+        if (!running) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = W / rect.width;
+        player.x = (event.clientX - rect.left) * scaleX;
+        player.x = Math.max(
+          player.w / 2,
+          Math.min(W - player.w / 2, player.x)
+        );
+      }
+
+      canvas.addEventListener("pointerdown", event => {
+        if (!running) return;
+        event.preventDefault();
+        moveToPointer(event);
+      });
+
+      canvas.addEventListener("pointermove", event => {
+        if (!running) return;
+        if (event.pointerType === "mouse" && event.buttons === 0) return;
+        moveToPointer(event);
+      });
+
+      document.addEventListener("keydown", event => {
+        if (["ArrowLeft", "ArrowRight", "a", "A", "d", "D"].includes(event.key)) {
+          event.preventDefault();
+        }
+
+        if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+          leftPressed = true;
+        }
+
+        if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+          rightPressed = true;
+        }
+
+        if ((event.key === "Enter" || event.key === " ") && !running) {
+          event.preventDefault();
+          startGame();
+        }
+      });
+
+      document.addEventListener("keyup", event => {
+        if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+          leftPressed = false;
+        }
+
+        if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+          rightPressed = false;
+        }
+      });
+
+      function bindMoveButton(button, direction) {
+        const setPressed = value => {
+          if (direction === "left") leftPressed = value;
+          else rightPressed = value;
+        };
+
+        button.addEventListener("pointerdown", event => {
+          event.preventDefault();
+          setPressed(true);
+          button.setPointerCapture?.(event.pointerId);
+        });
+
+        button.addEventListener("pointerup", () => setPressed(false));
+        button.addEventListener("pointercancel", () => setPressed(false));
+        button.addEventListener("lostpointercapture", () => setPressed(false));
+      }
+
+      bindMoveButton(document.getElementById("leftBtn"), "left");
+      bindMoveButton(document.getElementById("rightBtn"), "right");
+
+      startBtn.addEventListener("click", startGame);
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && running) {
+          running = false;
+          statusEl.textContent = "PAUSED";
+          overlayEmoji.textContent = "⏸️";
+          overlayTitle.textContent = "잠시 쉬어가기";
+          overlayText.textContent = "게임 화면을 다시 열고 계속 도전해 보세요.";
+          startBtn.textContent = "다시 시작하기 →";
+          overlay.classList.remove("hidden");
+        }
+      });
+
+      resetGame();
+    })();
+  </script>
+</body>
+</html>
+```
