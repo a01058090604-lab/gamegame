@@ -1,37 +1,989 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>하이어 오어 로어 카드 게임 무료 게임 | PlayLab 플레이랩</title>
-<meta name="description" content="다음 카드의 숫자가 더 높을지 낮을지 예측하는 무료 카드 게임입니다. 설치 없이 브라우저에서 바로 즐겨보세요.">
-<meta name="robots" content="index,follow">
-<link rel="canonical" href="https://gamegame-pi.vercel.app/games/higher-card.html">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="PlayLab 플레이랩">
-<meta property="og:title" content="하이어 오어 로어 카드 게임 무료 게임 | PlayLab">
-<meta property="og:description" content="다음 카드의 숫자가 더 높을지 낮을지 예측하는 무료 카드 게임입니다.">
-<meta property="og:url" content="https://gamegame-pi.vercel.app/games/higher-card.html">
-<meta property="og:image" content="https://gamegame-pi.vercel.app/favicon.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="하이어 오어 로어 카드 게임 무료 게임 | PlayLab">
-<meta name="twitter:description" content="다음 카드의 숫자가 더 높을지 낮을지 예측하는 무료 카드 게임입니다.">
-<link rel="icon" href="/favicon.png">
-<style>
-:root{--bg:#080b0a;--panel:#111714;--line:#28352d;--lime:#b8ff4a;--muted:#b4c0b6}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f4f8f4;font:16px/1.75 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:850px;margin:auto;padding:26px 20px 60px}nav{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px}
-a{color:var(--lime)}.brand{font-weight:850;text-decoration:none;letter-spacing:.2px}.hero{padding:40px 0 24px}.eyebrow{color:var(--lime);font-size:.9rem;font-weight:700}h1{font-size:clamp(2rem,6vw,3.2rem);line-height:1.18;margin:8px 0 16px}h2{font-size:1.35rem;margin-top:28px}p,li{color:var(--muted)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.btn{display:inline-block;background:var(--lime);color:#10150c;text-decoration:none;font-weight:800;border-radius:12px;padding:12px 18px}.btn.secondary{background:var(--panel);color:#f4f8f4;border:1px solid var(--line)}footer{border-top:1px solid var(--line);margin-top:38px;padding-top:18px;color:var(--muted);font-size:.9rem}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>하이어 카드 🃏 무료 카드 게임 | PlayLab</title>
+  <meta name="description" content="다음 카드가 더 높을까, 낮을까? 예측을 이어가며 연속 기록에 도전하는 무료 하이어 카드 게임을 PlayLab에서 즐겨보세요.">
+  <meta name="keywords" content="하이어 카드, 하이로우, 카드 게임, 무료 게임, 웹게임, PlayLab">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#080b0a">
+
+  <link rel="canonical" href="https://gamegame-pi.vercel.app/games/higher-card.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="하이어 카드 🃏 무료 카드 게임 | PlayLab">
+  <meta property="og:description" content="다음 카드가 높을지 낮을지 예측하고 최고 연속 기록에 도전하세요!">
+  <meta property="og:url" content="https://gamegame-pi.vercel.app/games/higher-card.html">
+  <meta name="twitter:card" content="summary">
+
+  <style>
+    :root {
+      --bg: #080b0a;
+      --panel: #111714;
+      --panel2: #171f19;
+      --line: #28352d;
+      --lime: #d5f477;
+      --lime-soft: rgba(213,244,119,.12);
+      --muted: #aab7ad;
+      --white: #f4f8f4;
+      --red: #ff7777;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top, rgba(213,244,119,.08), transparent 45%),
+        var(--bg);
+      color: var(--white);
+      font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .wrap {
+      width: min(100% - 32px, 760px);
+      margin: 0 auto;
+    }
+
+    header {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .brandmark {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--lime);
+      color: #10150b;
+      font-size: 20px;
+    }
+
+    .brand-name span {
+      color: var(--lime);
+    }
+
+    .home-link {
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .home-link:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    .hero {
+      padding: 38px 0 25px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border: 1px solid rgba(213,244,119,.25);
+      border-radius: 100px;
+      background: var(--lime-soft);
+      color: var(--lime);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 17px 0 10px;
+      font-size: clamp(32px, 7vw, 47px);
+      line-height: 1.2;
+      letter-spacing: -2px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .game-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 25px;
+      background: linear-gradient(150deg, #141c16, #0e130f);
+      box-shadow: 0 20px 70px rgba(0,0,0,.2);
+    }
+
+    .game-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .game-top h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 100px;
+      background: var(--lime-soft);
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      padding: 10px 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(0,0,0,.17);
+      text-align: center;
+    }
+
+    .stat-label {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .stat-value {
+      display: block;
+      margin-top: 2px;
+      color: var(--lime);
+      font-size: 22px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .table-area {
+      padding: 22px 15px;
+      border: 1px solid #29372d;
+      border-radius: 20px;
+      background:
+        radial-gradient(ellipse at center, rgba(213,244,119,.065), transparent 70%),
+        #0b100d;
+    }
+
+    .table-caption {
+      margin-bottom: 20px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .cards {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(12px, 5vw, 28px);
+    }
+
+    .card-slot {
+      width: min(37%, 145px);
+      aspect-ratio: 5 / 7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid #354238;
+      border-radius: 15px;
+      background: #151d17;
+      box-shadow: 0 12px 25px rgba(0,0,0,.25);
+    }
+
+    .playing-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border-radius: 14px;
+      background: #f6f5ef;
+      color: #161b17;
+      animation: card-in .2s ease-out;
+    }
+
+    .playing-card.red {
+      color: #e64f52;
+    }
+
+    .playing-card.back {
+      border: 5px solid #f6f5ef;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          #18251b 0,
+          #18251b 5px,
+          #243b27 5px,
+          #243b27 10px
+        );
+      color: var(--lime);
+    }
+
+    .playing-card.back::after {
+      content: "P";
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--lime);
+      border-radius: 12px;
+      background: #101811;
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .card-rank {
+      font-family: Georgia, serif;
+      font-size: clamp(30px, 8vw, 49px);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .card-suit {
+      font-size: clamp(25px, 6vw, 39px);
+      line-height: 1.2;
+    }
+
+    .card-corner {
+      position: absolute;
+      top: 8px;
+      left: 9px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .card-corner.bottom {
+      top: auto;
+      left: auto;
+      right: 9px;
+      bottom: 8px;
+      transform: rotate(180deg);
+    }
+
+    @keyframes card-in {
+      from {
+        opacity: .4;
+        transform: translateY(5px) scale(.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .versus {
+      color: var(--lime);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .result-message {
+      min-height: 30px;
+      margin: 19px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .result-message.good {
+      color: var(--lime);
+    }
+
+    .result-message.bad {
+      color: var(--red);
+    }
+
+    .choice-label {
+      margin: 20px 0 11px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .choice-btn {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--panel2);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 900;
+      transition: .15s;
+    }
+
+    .choice-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--lime);
+      background: var(--lime-soft);
+    }
+
+    .choice-btn:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+    }
+
+    .choice-btn .arrow {
+      color: var(--lime);
+      font-size: 21px;
+    }
+
+    .game-actions {
+      display: flex;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 13px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      padding: 12px 20px;
+      border-radius: 13px;
+      font-size: 13px;
+      font-weight: 900;
+      transition: .15s;
+    }
+
+    .primary-btn {
+      border: 0;
+      background: var(--lime);
+      color: #10150b;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .secondary-btn {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .secondary-btn:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    .game-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .content-section {
+      margin-top: 25px;
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: 21px;
+      background: var(--panel);
+    }
+
+    .content-section h2 {
+      margin: 0 0 13px;
+      font-size: 19px;
+      letter-spacing: -.5px;
+    }
+
+    .content-section p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-icon {
+      flex: 0 0 38px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--lime-soft);
+      font-size: 18px;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .step p {
+      font-size: 13px;
+    }
+
+    .tip {
+      padding: 15px;
+      border: 1px solid rgba(213,244,119,.2);
+      border-radius: 15px;
+      background: var(--lime-soft);
+    }
+
+    .tip strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--lime);
+      font-size: 14px;
+    }
+
+    .tip p {
+      font-size: 13px;
+    }
+
+    .bottom-cta {
+      margin: 25px 0 35px;
+      padding: 25px 20px;
+      border: 1px solid rgba(213,244,119,.2);
+      border-radius: 23px;
+      background: linear-gradient(135deg, rgba(213,244,119,.11), rgba(213,244,119,.025));
+      text-align: center;
+    }
+
+    .bottom-cta h2 {
+      margin: 0 0 7px;
+      font-size: 23px;
+    }
+
+    .bottom-cta p {
+      margin: 0 0 17px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .bottom-cta a {
+      display: inline-block;
+      padding: 11px 19px;
+      border: 1px solid rgba(213,244,119,.25);
+      border-radius: 12px;
+      color: var(--lime);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    footer {
+      padding: 22px 0 30px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      color: #7f8c82;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .wrap {
+        width: min(100% - 22px, 760px);
+      }
+
+      header {
+        height: 66px;
+      }
+
+      .hero {
+        padding-top: 29px;
+      }
+
+      .game-card {
+        padding: 12px;
+        border-radius: 20px;
+      }
+
+      .table-area {
+        padding: 18px 9px;
+      }
+
+      .content-section {
+        padding: 18px;
+      }
+
+      .stat-value {
+        font-size: 19px;
+      }
+
+      .choice-btn {
+        gap: 6px;
+        font-size: 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
-<body><main>
-<nav><a class="brand" href="/">PlayLab 플레이랩</a><a href="/">전체 게임 보기</a></nav>
-<header class="hero"><div class="eyebrow">무료 웹게임 · 설치 불필요</div><h1>하이어 오어 로어 카드 게임</h1><p>현재 카드와 비교해 다음 카드의 숫자가 높을지 낮을지 선택하세요. 확률을 생각하며 연속 정답에 도전할 수 있습니다.</p>
-<div class="actions"><a class="btn" href="/?game=higher-card">하이어 오어 로어 카드 게임 플레이하기</a><a class="btn secondary" href="/">다른 무료 게임 보기</a></div></header>
-<section class="panel"><h2>게임 방법</h2><ol><li>현재 카드의 숫자를 확인합니다.</li>
-<li>다음 카드가 더 높을지 낮을지 예측합니다.</li>
-<li>선택 결과를 확인하고 연속 정답에 도전하세요.</li></ol></section>
-<section><h2>하이어 오어 로어 카드 게임 소개</h2><p>다음 카드의 숫자가 더 높을지 낮을지 예측하는 무료 카드 게임입니다. PlayLab은 별도의 프로그램 설치 없이 브라우저에서 즐길 수 있는 무료 웹게임을 모아 둔 사이트입니다. 잠깐 쉬는 시간에 가볍게 플레이하거나 자신의 기록을 갱신해 보세요.</p><h2>플레이 팁</h2><p>처음에는 조작과 규칙을 익히는 데 집중하고, 익숙해지면 정확도와 속도를 함께 높여 보세요. 짧게 여러 번 도전하면서 자신의 최고 기록을 만들어 가는 것도 좋습니다.</p></section>
-<div class="actions"><a class="btn" href="/?game=higher-card">지금 무료로 시작</a><a class="btn secondary" href="/">PlayLab 홈으로</a></div>
-<footer>© PlayLab 플레이랩 · <a href="/">무료 웹게임 모음</a></footer>
-</main></body></html>
+
+<body>
+  <header class="wrap">
+    <a class="brand" href="/" aria-label="PlayLab 홈">
+      <span class="brandmark">▶</span>
+      <span class="brand-name">playlab<span>.</span></span>
+    </a>
+    <a class="home-link" href="/">← 게임 목록</a>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">🃏 FREE MINI GAME</span>
+      <h1>하이어 카드</h1>
+      <p>다음 카드는 더 높을까, 낮을까? 감으로 맞히고 연속 기록에 도전하세요!</p>
+    </section>
+
+    <section class="game-card" aria-label="하이어 카드 게임">
+      <div class="game-top">
+        <h2>🃏 Higher or Lower</h2>
+        <span class="status" id="status">READY</span>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-label">현재 연속</span>
+          <span class="stat-value" id="streak">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">이번 최고</span>
+          <span class="stat-value" id="roundBest">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">전체 최고</span>
+          <span class="stat-value" id="allBest">0</span>
+        </div>
+      </div>
+
+      <div class="table-area">
+        <div class="table-caption">다음 카드의 숫자를 예측하세요</div>
+
+        <div class="cards">
+          <div class="card-slot" id="currentSlot" aria-label="현재 카드"></div>
+          <span class="versus">VS</span>
+          <div class="card-slot" id="nextSlot" aria-label="다음 카드"></div>
+        </div>
+
+        <p class="result-message" id="message" aria-live="polite">
+          시작 버튼을 누르고 예측을 시작하세요!
+        </p>
+      </div>
+
+      <p class="choice-label">다음 카드가 어떻게 나올까요?</p>
+
+      <div class="choices">
+        <button class="choice-btn" id="higherBtn" disabled>
+          <span class="arrow">↑</span>
+          <span>더 높다</span>
+        </button>
+        <button class="choice-btn" id="lowerBtn" disabled>
+          <span class="arrow">↓</span>
+          <span>더 낮다</span>
+        </button>
+      </div>
+
+      <div class="game-actions">
+        <button class="primary-btn" id="startBtn">게임 시작하기 →</button>
+        <button class="secondary-btn" id="resetBtn">처음부터 ↻</button>
+      </div>
+
+      <p class="game-note">A 또는 ↑: 높다 · D 또는 ↓: 낮다</p>
+    </section>
+
+    <section class="content-section">
+      <h2>🎮 게임 방법</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-icon">🃏</span>
+          <div>
+            <strong>현재 카드를 확인해요</strong>
+            <p>카드의 숫자는 2부터 10, J, Q, K, A까지 있어요. A가 가장 높고 2가 가장 낮아요.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-icon">⬆️</span>
+          <div>
+            <strong>높다 또는 낮다를 선택해요</strong>
+            <p>다음 카드가 현재 카드보다 높을지 낮을지 예측하세요. 맞히면 연속 기록이 올라가요.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-icon">🏆</span>
+          <div>
+            <strong>최고 연속 기록을 세워요</strong>
+            <p>예측이 틀리면 해당 라운드가 끝나요. 다시 도전해 개인 최고 기록을 갱신하세요.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>💡 승리 팁</h2>
+      <div class="tip">
+        <strong>극단적인 숫자를 잘 활용하세요!</strong>
+        <p>현재 카드가 2나 3이면 더 높은 카드가 나올 가능성이 크고, Q나 K라면 더 낮은 카드가 나올 가능성이 커요. 단, 모든 카드는 매번 새로 뽑히므로 확정적인 예측은 불가능해요.</p>
+      </div>
+    </section>
+
+    <section class="bottom-cta">
+      <h2>다른 게임도 해볼까요?</h2>
+      <p>PlayLab에서 다양한 무료 미니게임을 만나보세요.</p>
+      <a href="/">다른 게임 둘러보기 →</a>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <a href="/">playlab.</a> · 무료로 즐기는 미니게임
+  </footer>
+
+  <script>
+    (() => {
+      const suits = [
+        { symbol: "♠", name: "스페이드", red: false },
+        { symbol: "♥", name: "하트", red: true },
+        { symbol: "♦", name: "다이아", red: true },
+        { symbol: "♣", name: "클로버", red: false }
+      ];
+
+      const ranks = [
+        { label: "2", value: 2 },
+        { label: "3", value: 3 },
+        { label: "4", value: 4 },
+        { label: "5", value: 5 },
+        { label: "6", value: 6 },
+        { label: "7", value: 7 },
+        { label: "8", value: 8 },
+        { label: "9", value: 9 },
+        { label: "10", value: 10 },
+        { label: "J", value: 11 },
+        { label: "Q", value: 12 },
+        { label: "K", value: 13 },
+        { label: "A", value: 14 }
+      ];
+
+      const currentSlot = document.getElementById("currentSlot");
+      const nextSlot = document.getElementById("nextSlot");
+      const message = document.getElementById("message");
+      const status = document.getElementById("status");
+      const streakEl = document.getElementById("streak");
+      const roundBestEl = document.getElementById("roundBest");
+      const allBestEl = document.getElementById("allBest");
+      const higherBtn = document.getElementById("higherBtn");
+      const lowerBtn = document.getElementById("lowerBtn");
+      const startBtn = document.getElementById("startBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      let currentCard = null;
+      let streak = 0;
+      let roundBest = 0;
+      let allBest = 0;
+      let playing = false;
+      let waiting = false;
+      let roundId = 0;
+
+      try {
+        allBest = Number(localStorage.getItem("playlab_higher_card_best")) || 0;
+      } catch (_) {}
+
+      allBestEl.textContent = allBest;
+
+      function drawCard() {
+        const rank = ranks[Math.floor(Math.random() * ranks.length)];
+        const suit = suits[Math.floor(Math.random() * suits.length)];
+
+        return {
+          label: rank.label,
+          value: rank.value,
+          suit: suit.symbol,
+          suitName: suit.name,
+          red: suit.red
+        };
+      }
+
+      function makeCardElement(card) {
+        const el = document.createElement("div");
+        el.className = "playing-card" + (card.red ? " red" : "");
+
+        const top = document.createElement("div");
+        top.className = "card-corner";
+        top.innerHTML =
+          "<span>" + card.label + "</span><span>" + card.suit + "</span>";
+
+        const rank = document.createElement("div");
+        rank.className = "card-rank";
+        rank.textContent = card.label;
+
+        const suit = document.createElement("div");
+        suit.className = "card-suit";
+        suit.textContent = card.suit;
+
+        const bottom = document.createElement("div");
+        bottom.className = "card-corner bottom";
+        bottom.innerHTML =
+          "<span>" + card.label + "</span><span>" + card.suit + "</span>";
+
+        el.append(top, rank, suit, bottom);
+        el.setAttribute("aria-label", card.suitName + " " + card.label);
+
+        return el;
+      }
+
+      function showCard(slot, card) {
+        slot.replaceChildren(makeCardElement(card));
+      }
+
+      function showBack() {
+        const back = document.createElement("div");
+        back.className = "playing-card back";
+        nextSlot.replaceChildren(back);
+      }
+
+      function setMessage(text, type = "") {
+        message.textContent = text;
+        message.className = "result-message" + (type ? " " + type : "");
+      }
+
+      function updateStats() {
+        streakEl.textContent = streak;
+        roundBestEl.textContent = roundBest;
+        allBestEl.textContent = allBest;
+      }
+
+      function setChoicesEnabled(enabled) {
+        higherBtn.disabled = !enabled;
+        lowerBtn.disabled = !enabled;
+      }
+
+      function startGame() {
+        roundId++;
+        playing = true;
+        waiting = false;
+        streak = 0;
+        roundBest = 0;
+        currentCard = drawCard();
+
+        showCard(currentSlot, currentCard);
+        showBack();
+        updateStats();
+        setChoicesEnabled(true);
+
+        status.textContent = "PLAYING";
+        startBtn.textContent = "새 게임 ↻";
+        setMessage("다음 카드가 더 높을지 낮을지 선택하세요!");
+      }
+
+      function finishGame(text) {
+        playing = false;
+        waiting = false;
+        setChoicesEnabled(false);
+        status.textContent = "GAME OVER";
+
+        if (roundBest > allBest) {
+          allBest = roundBest;
+          try {
+            localStorage.setItem("playlab_higher_card_best", String(allBest));
+          } catch (_) {}
+        }
+
+        updateStats();
+        startBtn.textContent = "다시 도전하기 →";
+        setMessage(text, "bad");
+      }
+
+      function predict(choice) {
+        if (!playing || waiting || !currentCard) return;
+
+        waiting = true;
+        setChoicesEnabled(false);
+
+        const thisRound = roundId;
+        const previous = currentCard;
+        const next = drawCard();
+
+        showCard(nextSlot, next);
+
+        const isHigher = next.value > previous.value;
+        const isLower = next.value < previous.value;
+        const isCorrect =
+          (choice === "higher" && isHigher) ||
+          (choice === "lower" && isLower);
+
+        if (next.value === previous.value) {
+          setMessage(
+            "같은 숫자예요! 연속 기록은 유지돼요. 다시 예측하세요.",
+            ""
+          );
+
+          currentCard = next;
+          showCard(currentSlot, currentCard);
+
+          window.setTimeout(() => {
+            if (thisRound !== roundId || !playing) return;
+            showBack();
+            waiting = false;
+            setChoicesEnabled(true);
+          }, 650);
+
+          return;
+        }
+
+        if (isCorrect) {
+          streak++;
+          roundBest = Math.max(roundBest, streak);
+          updateStats();
+
+          setMessage(
+            "정답! " + previous.label + " → " + next.label +
+            " · 연속 " + streak + "회 성공!",
+            "good"
+          );
+
+          currentCard = next;
+
+          window.setTimeout(() => {
+            if (thisRound !== roundId || !playing) return;
+            showCard(currentSlot, currentCard);
+            showBack();
+            waiting = false;
+            setChoicesEnabled(true);
+            setMessage("좋아요! 다음 카드도 예측해 보세요.", "good");
+          }, 700);
+        } else {
+          setMessage(
+            "아쉽다! " + previous.label + " 다음은 " + next.label +
+            "였어요. 이번 기록: " + streak + "회",
+            "bad"
+          );
+
+          currentCard = next;
+          showCard(currentSlot, currentCard);
+
+          window.setTimeout(() => {
+            if (thisRound !== roundId) return;
+            finishGame("게임 종료! 최고 연속 기록은 " + roundBest + "회예요.");
+          }, 850);
+        }
+      }
+
+      higherBtn.addEventListener("click", () => predict("higher"));
+      lowerBtn.addEventListener("click", () => predict("lower"));
+      startBtn.addEventListener("click", startGame);
+
+      resetBtn.addEventListener("click", () => {
+        roundId++;
+        playing = false;
+        waiting = false;
+        streak = 0;
+        roundBest = 0;
+        currentCard = null;
+
+        currentSlot.replaceChildren();
+        nextSlot.replaceChildren();
+
+        const placeholder = document.createElement("div");
+        placeholder.className = "playing-card back";
+        nextSlot.appendChild(placeholder);
+
+        updateStats();
+        setChoicesEnabled(false);
+        status.textContent = "READY";
+        startBtn.textContent = "게임 시작하기 →";
+        setMessage("시작 버튼을 누르고 예측을 시작하세요!");
+      });
+
+      document.addEventListener("keydown", event => {
+        const tag = event.target && event.target.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA") return;
+
+        if (event.key === "ArrowUp" || event.key.toLowerCase() === "a") {
+          if (playing && !waiting) {
+            event.preventDefault();
+            predict("higher");
+          }
+        }
+
+        if (event.key === "ArrowDown" || event.key.toLowerCase() === "d") {
+          if (playing && !waiting) {
+            event.preventDefault();
+            predict("lower");
+          }
+        }
+      });
+
+      const initialBack = document.createElement("div");
+      initialBack.className = "playing-card back";
+      nextSlot.appendChild(initialBack);
+    })();
+  </script>
+</body>
+</html>
+```
