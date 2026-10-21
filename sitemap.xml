@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://gamegame-pi.vercel.app/</loc>
-  </url>
+  <url><loc>https://gamegame-pi.vercel.app/</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/blocks.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/star.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/merge.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/reaction.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/memory.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/tap.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/target.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/math.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/color-pick.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/sequence.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/word-scramble.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/coin-catch.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/higher-card.html</loc></url>
+  <url><loc>https://gamegame-pi.vercel.app/games/lane-dodge.html</loc></url>
 </urlset>
